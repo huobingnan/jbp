@@ -1,0 +1,33 @@
+package constantpool
+
+import (
+	"bytecodeparser/jvm/classfile/reader"
+	"fmt"
+)
+
+type ModuleConstant struct {
+	nameIndex uint16
+}
+
+func (m *ModuleConstant) Tag() int {
+	return ConstantModuleInfo
+}
+
+func (m *ModuleConstant) Value() interface{} {
+	return m.nameIndex
+}
+
+func (m *ModuleConstant) String() string {
+	return fmt.Sprintf("<CONSTANT_Module_info: @%d>", m.nameIndex)
+}
+
+func (m *ModuleConstant) GoString() string {
+	return m.String()
+}
+
+func NewModuleConstant(r *reader.ByteCodeReader) *ModuleConstant {
+	if index, ok := r.ReadU2(); ok {
+		return &ModuleConstant{index}
+	}
+	panic("Read module info error")
+}
