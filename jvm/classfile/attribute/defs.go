@@ -16,7 +16,8 @@ const (
 	SourceFile         = "SourceFile"         // 源文件
 	Synthetic          = "Synthetic"          // 非用户代码生成
 	ExceptionTable     = "Exception table"    // 异常表
-	
+	StackMapTable      = "StackMapTable"      // 栈映射表
+	InnerClass         = "InnerClass"         // 内部类
 )
 
 // Attribute 属性接口定义
