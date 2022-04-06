@@ -3,15 +3,23 @@ package classfile
 import (
 	"bytecodeparser/jvm/classfile/reader"
 	"io/ioutil"
+	"path/filepath"
 	"testing"
 )
 
 func TestNewJvmClassFile(t *testing.T) {
+
+	// NOTICE: 测试前，请将data目录在本机的绝对路径拷贝在这里
+	testingDataDir := "/Users/huobingnan/Code/Golang/ByteCodeParser/data"
+
 	t.Run("BiLock.class", func(t *testing.T) {
-		byteCode, _ := ioutil.ReadFile("/Users/huobingnan/Code/Golang/ByteCodeParser/data/BiLock.class")
+		byteCode, err := ioutil.ReadFile(filepath.Join(testingDataDir, "BiLock.class"))
+		if err != nil {
+			panic(err)
+		}
 		r := reader.NewByteCodeReader(byteCode)
 		jvmClassFile := NewJvmClassFile(r)
-		t.Log("Magic number: ", jvmClassFile.magicNumber)
+		t.Logf("Magic number: %X", jvmClassFile.magicNumber)
 		t.Log("Minor version: ", jvmClassFile.minorVersion)
 		t.Log("Major version: ", jvmClassFile.majorVersion)
 		for idx, each := range jvmClassFile.cp {
@@ -23,10 +31,10 @@ func TestNewJvmClassFile(t *testing.T) {
 	})
 
 	t.Run("InterfaceDemo.class", func(t *testing.T) {
-		byteCode, _ := ioutil.ReadFile("/Users/huobingnan/Code/Golang/ByteCodeParser/data/InterfaceDemo.class")
+		byteCode, _ := ioutil.ReadFile(filepath.Join(testingDataDir, "InterfaceDemo.class"))
 		r := reader.NewByteCodeReader(byteCode)
 		jvmClassFile := NewJvmClassFile(r)
-		t.Log("Magic number: ", jvmClassFile.magicNumber)
+		t.Logf("Magic number: %X", jvmClassFile.magicNumber)
 		t.Log("Minor version: ", jvmClassFile.minorVersion)
 		t.Log("Major version: ", jvmClassFile.majorVersion)
 		for idx, each := range jvmClassFile.cp {
@@ -39,10 +47,10 @@ func TestNewJvmClassFile(t *testing.T) {
 	})
 
 	t.Run("GroovyClosureCurrying.class", func(t *testing.T) {
-		byteCode, _ := ioutil.ReadFile("/Users/huobingnan/Code/Golang/ByteCodeParser/data/GroovyClosureCurrying.class")
+		byteCode, _ := ioutil.ReadFile(filepath.Join(testingDataDir, "GroovyClosureCurrying.class"))
 		r := reader.NewByteCodeReader(byteCode)
 		jvmClassFile := NewJvmClassFile(r)
-		t.Log("Magic number: ", jvmClassFile.magicNumber)
+		t.Logf("Magic number: %X", jvmClassFile.magicNumber)
 		t.Log("Minor version: ", jvmClassFile.minorVersion)
 		t.Log("Major version: ", jvmClassFile.majorVersion)
 		for idx, each := range jvmClassFile.cp {

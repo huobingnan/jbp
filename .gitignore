@@ -6,3 +6,5 @@
 *.dylib
 *.dll
 *.so
+
+.DS_Store

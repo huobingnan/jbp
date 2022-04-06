@@ -9,10 +9,18 @@ const (
 	LineNumberTableLineNumberTable = "line_number_table"
 )
 
+// LineNumberInfo 包含了start_pc和Java源程序line_number的对应
+// 索引0存储start_pc，索引1存储line_number
+type LineNumberInfo [2]uint16
+
+func (self *LineNumberInfo) ByteCodeLineNumber() uint16 { return (*self)[0] }
+
+func (self *LineNumberInfo) SourceFileLineNumber() uint16 { return (*self)[1] }
+
 // LineNumberTableAttribute 用于描述Java源码行号与字节码行号(字节码的偏移量)之间的对应关系
 type LineNumberTableAttribute struct {
 	length          uint32
-	lineNumberTable [][2]uint16 // 包含了start_pc和Java源程序line_number的对应，索引0存储start_pc，索引1存储line_number
+	lineNumberTable []LineNumberInfo
 }
 
 func (l *LineNumberTableAttribute) Name() string { return LineNumberTable }
@@ -40,7 +48,7 @@ func NewLineNumberTableAttribute(r *reader.ByteCodeReader, cp constantpool.Const
 	if !ok {
 		panic("Read line number table attribute error (can't read table length info)")
 	}
-	ret.lineNumberTable = make([][2]uint16, 0, tableLength)
+	ret.lineNumberTable = make([]LineNumberInfo, 0, tableLength)
 	for i := uint16(0); i < tableLength; i++ {
 		startPc, ok := r.ReadU2()
 		if !ok {
@@ -50,7 +58,7 @@ func NewLineNumberTableAttribute(r *reader.ByteCodeReader, cp constantpool.Const
 		if !ok {
 			panic("Read line number table attribute error (can't read line_number info)")
 		}
-		ret.lineNumberTable = append(ret.lineNumberTable, [2]uint16{startPc, lineNumber})
+		ret.lineNumberTable = append(ret.lineNumberTable, LineNumberInfo([2]uint16{startPc, lineNumber}))
 	}
 	return ret
 }
