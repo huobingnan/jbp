@@ -46,23 +46,24 @@ func readLocalVariableInfo(r *reader.ByteCodeReader) LocalVariableInfo {
 	var ok bool
 	info.startPc, ok = r.ReadU2()
 	if !ok {
-		panic("Read local variable info error (can't read start_pc info)")
+		panic(ErrorMsgFmt("Read local variable info error", "can't read start_pc info", r.Offset()))
 	}
 	info.length, ok = r.ReadU2()
 	if !ok {
-		panic("Read local variable info error (can't read length info)")
+		panic(ErrorMsgFmt("Read local variable info error", "can't read length info", r.Offset()))
 	}
 	info.nameIndex, ok = r.ReadU2()
 	if !ok {
-		panic("Read local variable info error (can't read name_index info)")
+		panic(ErrorMsgFmt("Read local variable info error", "can't read name_index info", r.Offset()))
 	}
 	info.descriptorIndex, ok = r.ReadU2()
 	if !ok {
-		panic("Read local variable info error (can't read descriptor_index info)")
+		panic(ErrorMsgFmt("Read local variable info error",
+			"can't read descriptor_index info", r.Offset()))
 	}
 	info.index, ok = r.ReadU2()
 	if !ok {
-		panic("Read local variable info error (can't read index info)")
+		panic(ErrorMsgFmt("Read local variable info error", "can't read index info", r.Offset()))
 	}
 	return info
 }
@@ -72,11 +73,11 @@ func NewLocalVariableTableAttribute(r *reader.ByteCodeReader, cp constantpool.Co
 	ret := new(LocalVariableTableAttribute)
 	ret.length, ok = r.ReadU4()
 	if !ok {
-		panic("Read local variable table error (can't read length info)")
+		panic(ErrorMsgFmt("Read local variable info error", "can't read length info", r.Offset()))
 	}
 	tableLength, ok := r.ReadU2()
 	if !ok {
-		panic("Read local variable table error (can't read local_variable_table_length info)")
+		panic(ErrorMsgFmt("Read local variable info error", "can't read table_length info", r.Offset()))
 	}
 	ret.table = make([]LocalVariableInfo, 0, tableLength)
 	for i := uint16(0); i < tableLength; i++ {

@@ -33,11 +33,12 @@ func NewSourceFileAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPo
 	ret := new(SourceFileAttribute)
 	ret.length, ok = r.ReadU4()
 	if !ok {
-		panic("Read source file attribute error (can't read length info)")
+		panic(ErrorMsgFmt("Read source file attribute error", "can't read length info", r.Offset()))
 	}
 	ret.sourceFileIndex, ok = r.ReadU2()
 	if !ok {
-		panic("Read source file attribute error (can't read source_file_index info)")
+		panic(ErrorMsgFmt("Read source file attribute error",
+			"can't read source_file_index info", r.Offset()))
 	}
 	return ret
 }

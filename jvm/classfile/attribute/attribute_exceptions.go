@@ -33,11 +33,12 @@ func (self *ExceptionsAttribute) Get(key string) interface{} {
 func NewExceptionsAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *ExceptionsAttribute {
 	length, ok := r.ReadU4()
 	if !ok {
-		panic("Read exceptions attribute error (can't read length info)")
+		panic(ErrorMsgFmt("Read exceptions attribute error", "can't read length info", r.Offset()))
 	}
 	numberOfExceptions, ok := r.ReadU2()
 	if !ok {
-		panic("Read exceptions attribute error (can't read number_of_exceptions info)")
+		panic(ErrorMsgFmt("Read exceptions attribute error", "can't read number_of_exceptions info",
+			r.Offset()))
 	}
 	ret := new(ExceptionsAttribute)
 	ret.length = length
@@ -45,7 +46,8 @@ func NewExceptionsAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPo
 	for i := uint16(0); i < numberOfExceptions; i++ {
 		index, ok := r.ReadU2()
 		if !ok {
-			panic("Read exceptions attribute error (read exception_index error)")
+			panic(ErrorMsgFmt("Read exceptions attribute error", "can't read exception_index info",
+				r.Offset()))
 		}
 		ret.exceptionIndexTable = append(ret.exceptionIndexTable, index)
 	}

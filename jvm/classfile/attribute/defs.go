@@ -20,6 +20,10 @@ const (
 	InnerClass         = "InnerClass"         // 内部类
 )
 
+func ErrorMsgFmt(body, detail string, offset uint32) string {
+	return fmt.Sprintf("[ERROR]:   %s (%s) @%d", body, detail, offset)
+}
+
 // Attribute 属性接口定义
 type Attribute interface {
 	Name() string           // 获取属性名
@@ -32,7 +36,7 @@ func New(r *reader.ByteCodeReader, cp constantpool.ConstantPool) Attribute {
 	if idx, ok := r.ReadU2(); ok {
 		name = cp[idx].Value().(string)
 	} else {
-		panic("Read attribute error (name index)")
+		panic(ErrorMsgFmt("Read attribute error", "can't read attribute_name_index info", r.Offset()))
 	}
 	switch name {
 	case Code:
@@ -51,7 +55,9 @@ func New(r *reader.ByteCodeReader, cp constantpool.ConstantPool) Attribute {
 		return NewSourceFileAttribute(r, cp)
 	case Synthetic:
 		return NewSyntheticAttribute(r, cp)
+	case StackMapTable:
+		return NewStackMapTableAttribute(r, cp)
 	default:
-		panic(fmt.Sprintf("Unsupported attribute (%s)", name))
+		panic(ErrorMsgFmt("Unsupported attribute", name, r.Offset()))
 	}
 }

@@ -32,11 +32,12 @@ func NewConstantValueAttribute(r *reader.ByteCodeReader, cp constantpool.Constan
 	ret := new(ConstantValueAttribute)
 	ret.length, ok = r.ReadU4()
 	if !ok {
-		panic("Read constant value attribute error (can't read length info)")
+		panic(ErrorMsgFmt("Read constant value attribute error", "can't read length info", r.Offset()))
 	}
 	ret.index, ok = r.ReadU2()
 	if !ok {
-		panic("Read constant value attribute error (can't read constantvalue_index info)")
+		panic(ErrorMsgFmt("Read constant value attribute error", "can't read constantvalue_index info",
+			r.Offset()))
 	}
 	return ret
 }

@@ -44,19 +44,19 @@ func NewExceptionTableAttribute(r *reader.ByteCodeReader, cp constantpool.Consta
 	ret := new(ExceptionTableAttribute)
 	ret.startPc, ok = r.ReadU2()
 	if !ok {
-		panic("Read exception table error (can't read start_pc)")
+		panic(ErrorMsgFmt("Read exception table error", "can't read start_pc info", r.Offset()))
 	}
 	ret.endPc, ok = r.ReadU2()
 	if !ok {
-		panic("Read exception table error (can't read end_pc)")
+		panic(ErrorMsgFmt("Read exception table error", "can't read end_pc info", r.Offset()))
 	}
 	ret.handlerPc, ok = r.ReadU2()
 	if !ok {
-		panic("Read exception table error (can't read handler_pc)")
+		panic(ErrorMsgFmt("Read exception table error", "can't read handler_pc info", r.Offset()))
 	}
 	ret.catchType, ok = r.ReadU2()
 	if !ok {
-		panic("Read exception table error (can't read catch_type)")
+		panic(ErrorMsgFmt("Read exception table error", "can't read catch_type info", r.Offset()))
 	}
 	return ret
 }

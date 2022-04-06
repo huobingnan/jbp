@@ -58,17 +58,17 @@ func NewCodeAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *C
 	if l, ok := r.ReadU4(); ok {
 		ret.length = l
 	} else {
-		panic("Read code attribute (length error)")
+		panic(ErrorMsgFmt("Read code attribute error", "can't read length info", r.Offset()))
 	}
 	if ms, ok := r.ReadU2(); ok {
 		ret.maxStack = ms
 	} else {
-		panic("Read code attribute (max stack error)")
+		panic(ErrorMsgFmt("Read code attribute error", "can't read max_stack info", r.Offset()))
 	}
 	if ml, ok := r.ReadU2(); ok {
 		ret.maxLocals = ml
 	} else {
-		panic("Read code attribute (max locals error)")
+		panic(ErrorMsgFmt("Read code attribute error", "can't read max_locals info", r.Offset()))
 	}
 	if cl, ok := r.ReadU4(); ok {
 		if cl > 0 {
@@ -77,11 +77,11 @@ func NewCodeAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *C
 			if code, ok := r.ReadAny(int(cl)); ok {
 				ret.code = code
 			} else {
-				panic("Read code attribute (code content error)")
+				panic(ErrorMsgFmt("Read code attribute error", "can't read code info", r.Offset()))
 			}
 		}
 	} else {
-		panic("Read code attribute (code length error)")
+		panic(ErrorMsgFmt("Read code attribute error", "can't read code_length info", r.Offset()))
 	}
 	if el, ok := r.ReadU2(); ok {
 		ret.exceptionTable = make([]ExceptionTableAttribute, el)

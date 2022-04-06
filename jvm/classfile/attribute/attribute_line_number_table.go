@@ -42,21 +42,25 @@ func NewLineNumberTableAttribute(r *reader.ByteCodeReader, cp constantpool.Const
 	ret := new(LineNumberTableAttribute)
 	ret.length, ok = r.ReadU4()
 	if !ok {
-		panic("Read line number table attribute error (can't read length info)")
+		panic(ErrorMsgFmt("Read line number table attribute error",
+			"can't read length info", r.Offset()))
 	}
 	tableLength, ok := r.ReadU2()
 	if !ok {
-		panic("Read line number table attribute error (can't read table length info)")
+		panic(ErrorMsgFmt("Read line number table attribute error",
+			"can't read table_length info", r.Offset()))
 	}
 	ret.lineNumberTable = make([]LineNumberInfo, 0, tableLength)
 	for i := uint16(0); i < tableLength; i++ {
 		startPc, ok := r.ReadU2()
 		if !ok {
-			panic("Read line number table attribute error (can't read start_pc info)")
+			panic(ErrorMsgFmt("Read line number table attribute error",
+				"can't read  start_cp info", r.Offset()))
 		}
 		lineNumber, ok := r.ReadU2()
 		if !ok {
-			panic("Read line number table attribute error (can't read line_number info)")
+			panic(ErrorMsgFmt("Read line number table attribute error",
+				"can't read line_number info", r.Offset()))
 		}
 		ret.lineNumberTable = append(ret.lineNumberTable, LineNumberInfo([2]uint16{startPc, lineNumber}))
 	}

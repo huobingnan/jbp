@@ -34,17 +34,20 @@ func NewStackMapTableAttribute(r *reader.ByteCodeReader, cp constantpool.Constan
 	ret := new(StackMapTableAttribute)
 	ret.length, ok = r.ReadU4()
 	if !ok {
-		panic("Read stack map table attribute error (can't read length info)")
+		panic(ErrorMsgFmt("Read stack map table attribute error",
+			"can't read length info", r.Offset()))
 	}
 	numberOfEntries, ok := r.ReadU2()
 	if !ok {
-		panic("Read stack map table attribute error (can't read number_of_entries info)")
+		panic(ErrorMsgFmt("Read stack map table attribute error",
+			"can't read number_of_entries info", r.Offset()))
 	}
 	ret.entries = make([]StackMapFrame, 0, numberOfEntries)
 	for i := uint16(0); i < numberOfEntries; i++ {
 		offset, ok := r.ReadU2()
 		if !ok {
-			panic("Read stack map table attribute error (can't read offset info)")
+			panic(ErrorMsgFmt("Read stack map table attribute error",
+				"can't read offset info", r.Offset()))
 		}
 		ret.entries = append(ret.entries, StackMapFrame(offset))
 	}
