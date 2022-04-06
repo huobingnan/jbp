@@ -65,11 +65,6 @@ func TestNewJvmClassFile(t *testing.T) {
 	t.Run("GroovyClosureCurrying.class", func(t *testing.T) {
 		byteCode, _ := ioutil.ReadFile(filepath.Join(testingDataDir, "GroovyClosureCurrying.class"))
 		r := reader.NewByteCodeReader(byteCode)
-		defer func() {
-			msg := recover()
-			t.Log(msg)
-			t.Log("Offset:", r.Offset())
-		}()
 		jvmClassFile := NewJvmClassFile(r)
 		t.Logf("Magic number: %X", jvmClassFile.magicNumber)
 		t.Log("Minor version: ", jvmClassFile.minorVersion)
@@ -89,9 +84,10 @@ func TestNewJvmClassFile(t *testing.T) {
 	})
 
 	t.Run("TurnLock.class", func(t *testing.T) {
+		var jvmClassFile *JvmClassFile
 		byteCode, _ := ioutil.ReadFile(filepath.Join(testingDataDir, "TurnLock.class"))
 		r := reader.NewByteCodeReader(byteCode)
-		jvmClassFile := NewJvmClassFile(r)
+		jvmClassFile = NewJvmClassFile(r)
 		t.Logf("Magic number: %X", jvmClassFile.magicNumber)
 		t.Log("Minor version: ", jvmClassFile.minorVersion)
 		t.Log("Major version: ", jvmClassFile.majorVersion)

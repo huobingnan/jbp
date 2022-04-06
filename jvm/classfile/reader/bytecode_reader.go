@@ -59,6 +59,13 @@ func (s *ByteCodeReader) ReadAny(size int) ([]byte, bool) {
 	return ret, true
 }
 
+func (s *ByteCodeReader) ReadAnyStandStill(size int) ([]byte, bool) {
+	if size < 0 || len(s.buffer) < size {
+		return nil, false
+	}
+	return s.buffer[:size], true
+}
+
 func NewByteCodeReader(byteCode []byte) *ByteCodeReader {
 	reader := new(ByteCodeReader)
 	reader.buffer = byteCode
