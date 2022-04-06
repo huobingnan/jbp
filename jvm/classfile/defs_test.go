@@ -33,6 +33,9 @@ func TestNewJvmClassFile(t *testing.T) {
 				t.Log("Filed:", &each)
 			}
 		}
+		for _, method := range jvmClassFile.Methods() {
+			t.Log("Method:", &method)
+		}
 	})
 
 	t.Run("InterfaceDemo.class", func(t *testing.T) {
@@ -49,10 +52,44 @@ func TestNewJvmClassFile(t *testing.T) {
 		t.Logf("This class: %v", jvmClassFile.ConstantPool()[jvmClassFile.thisClass])
 		t.Logf("Super class: %v", jvmClassFile.ConstantPool()[jvmClassFile.superClass])
 		t.Logf("Interface index set: %v", jvmClassFile.InterfaceIndexSet())
+		if jvmClassFile.Fields() != nil {
+			for _, each := range jvmClassFile.Fields() {
+				t.Log("Field:", &each)
+			}
+		}
+		for _, method := range jvmClassFile.Methods() {
+			t.Log("Method:", &method)
+		}
 	})
 
 	t.Run("GroovyClosureCurrying.class", func(t *testing.T) {
 		byteCode, _ := ioutil.ReadFile(filepath.Join(testingDataDir, "GroovyClosureCurrying.class"))
+		r := reader.NewByteCodeReader(byteCode)
+		defer func() {
+			msg := recover()
+			t.Log(msg)
+			t.Log("Offset:", r.Offset())
+		}()
+		jvmClassFile := NewJvmClassFile(r)
+		t.Logf("Magic number: %X", jvmClassFile.magicNumber)
+		t.Log("Minor version: ", jvmClassFile.minorVersion)
+		t.Log("Major version: ", jvmClassFile.majorVersion)
+		for idx, each := range jvmClassFile.cp {
+			t.Logf("index: %2d, %v", idx, each)
+		}
+		t.Logf("Access flags: %x", jvmClassFile.accessFlags)
+		t.Logf("This class: %v", jvmClassFile.ConstantPool()[jvmClassFile.thisClass])
+		t.Logf("Super class: %v", jvmClassFile.ConstantPool()[jvmClassFile.superClass])
+		t.Logf("Interface index set: %v", jvmClassFile.InterfaceIndexSet())
+		if jvmClassFile.Fields() != nil {
+			for _, each := range jvmClassFile.Fields() {
+				t.Log("Field:", &each)
+			}
+		}
+	})
+
+	t.Run("TurnLock.class", func(t *testing.T) {
+		byteCode, _ := ioutil.ReadFile(filepath.Join(testingDataDir, "TurnLock.class"))
 		r := reader.NewByteCodeReader(byteCode)
 		jvmClassFile := NewJvmClassFile(r)
 		t.Logf("Magic number: %X", jvmClassFile.magicNumber)
@@ -65,6 +102,14 @@ func TestNewJvmClassFile(t *testing.T) {
 		t.Logf("This class: %v", jvmClassFile.ConstantPool()[jvmClassFile.thisClass])
 		t.Logf("Super class: %v", jvmClassFile.ConstantPool()[jvmClassFile.superClass])
 		t.Logf("Interface index set: %v", jvmClassFile.InterfaceIndexSet())
+		if jvmClassFile.Fields() != nil {
+			for _, each := range jvmClassFile.Fields() {
+				t.Log("Field:", &each)
+			}
+		}
+		for _, method := range jvmClassFile.Methods() {
+			t.Log("Method:", &method)
+		}
 	})
 
 }

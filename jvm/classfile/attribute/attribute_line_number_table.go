@@ -5,10 +5,6 @@ import (
 	"bytecodeparser/jvm/classfile/reader"
 )
 
-const (
-	LineNumberTableLineNumberTable = "line_number_table"
-)
-
 // LineNumberInfo 包含了start_pc和Java源程序line_number的对应
 // 索引0存储start_pc，索引1存储line_number
 type LineNumberInfo [2]uint16
@@ -19,22 +15,13 @@ func (self *LineNumberInfo) SourceFileLineNumber() uint16 { return (*self)[1] }
 
 // LineNumberTableAttribute 用于描述Java源码行号与字节码行号(字节码的偏移量)之间的对应关系
 type LineNumberTableAttribute struct {
-	length          uint32
-	lineNumberTable []LineNumberInfo
+	length uint32
+	Table  []LineNumberInfo
 }
 
 func (l *LineNumberTableAttribute) Name() string { return LineNumberTable }
 
 func (l *LineNumberTableAttribute) Length() uint32 { return l.length }
-
-func (l *LineNumberTableAttribute) Get(key string) interface{} {
-	switch key {
-	case LineNumberTableLineNumberTable:
-		return l.lineNumberTable
-	default:
-		return nil
-	}
-}
 
 // NewLineNumberTableAttribute 从Class File中读取LineNumberTable的属性
 func NewLineNumberTableAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *LineNumberTableAttribute {
@@ -42,27 +29,27 @@ func NewLineNumberTableAttribute(r *reader.ByteCodeReader, cp constantpool.Const
 	ret := new(LineNumberTableAttribute)
 	ret.length, ok = r.ReadU4()
 	if !ok {
-		panic(ErrorMsgFmt("Read line number table attribute error",
-			"can't read length info", r.Offset()))
+		panic(ErrorMsgFmt("Read line number Table attribute error",
+			"can't read Length info", r.Offset()))
 	}
 	tableLength, ok := r.ReadU2()
 	if !ok {
-		panic(ErrorMsgFmt("Read line number table attribute error",
+		panic(ErrorMsgFmt("Read line number Table attribute error",
 			"can't read table_length info", r.Offset()))
 	}
-	ret.lineNumberTable = make([]LineNumberInfo, 0, tableLength)
+	ret.Table = make([]LineNumberInfo, 0, tableLength)
 	for i := uint16(0); i < tableLength; i++ {
 		startPc, ok := r.ReadU2()
 		if !ok {
-			panic(ErrorMsgFmt("Read line number table attribute error",
+			panic(ErrorMsgFmt("Read line number Table attribute error",
 				"can't read  start_cp info", r.Offset()))
 		}
 		lineNumber, ok := r.ReadU2()
 		if !ok {
-			panic(ErrorMsgFmt("Read line number table attribute error",
+			panic(ErrorMsgFmt("Read line number Table attribute error",
 				"can't read line_number info", r.Offset()))
 		}
-		ret.lineNumberTable = append(ret.lineNumberTable, LineNumberInfo([2]uint16{startPc, lineNumber}))
+		ret.Table = append(ret.Table, LineNumberInfo([2]uint16{startPc, lineNumber}))
 	}
 	return ret
 }

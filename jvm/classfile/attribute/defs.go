@@ -7,17 +7,18 @@ import (
 )
 
 const (
-	Code               = "Code"               // 代码属性
-	ConstantValue      = "ConstantValue"      // 常量
-	Deprecated         = "Deprecated"         // 废弃的字段
-	Exceptions         = "Exceptions"         // 异常
-	LineNumberTable    = "LineNumberTable"    // 行数表
-	LocalVariableTable = "LocalVariableTable" // 本地变量表
-	SourceFile         = "SourceFile"         // 源文件
-	Synthetic          = "Synthetic"          // 非用户代码生成
-	ExceptionTable     = "Exception table"    // 异常表
-	StackMapTable      = "StackMapTable"      // 栈映射表
-	InnerClass         = "InnerClass"         // 内部类
+	Code                      = "Code"                      // 代码属性
+	ConstantValue             = "ConstantValue"             // 常量
+	Deprecated                = "Deprecated"                // 废弃的字段
+	Exceptions                = "Exceptions"                // 异常
+	LineNumberTable           = "LineNumberTable"           // 行数表
+	LocalVariableTable        = "LocalVariableTable"        // 本地变量表
+	SourceFile                = "SourceFile"                // 源文件
+	Synthetic                 = "Synthetic"                 // 非用户代码生成
+	ExceptionTable            = "Exception Table"           // 异常表
+	StackMapTable             = "StackMapTable"             // 栈映射表
+	InnerClass                = "InnerClass"                // 内部类
+	RuntimeVisibleAnnotations = "RuntimeVisibleAnnotations" // 运行时可见注解
 )
 
 func ErrorMsgFmt(body, detail string, offset uint32) string {
@@ -26,9 +27,8 @@ func ErrorMsgFmt(body, detail string, offset uint32) string {
 
 // Attribute 属性接口定义
 type Attribute interface {
-	Name() string           // 获取属性名
-	Length() uint32         // 获取属性的长度
-	Get(string) interface{} // 获取属性
+	Name() string   // 获取属性名
+	Length() uint32 // 获取属性的长度
 }
 
 func New(r *reader.ByteCodeReader, cp constantpool.ConstantPool) Attribute {
@@ -57,6 +57,8 @@ func New(r *reader.ByteCodeReader, cp constantpool.ConstantPool) Attribute {
 		return NewSyntheticAttribute(r, cp)
 	case StackMapTable:
 		return NewStackMapTableAttribute(r, cp)
+	case RuntimeVisibleAnnotations:
+		return NewRuntimeVisibleAnnotationsAttribute(r, cp)
 	default:
 		panic(ErrorMsgFmt("Unsupported attribute", name, r.Offset()))
 	}

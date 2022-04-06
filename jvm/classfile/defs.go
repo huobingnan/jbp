@@ -3,6 +3,7 @@ package classfile
 import (
 	"bytecodeparser/jvm/classfile/constantpool"
 	"bytecodeparser/jvm/classfile/field"
+	"bytecodeparser/jvm/classfile/method"
 	"bytecodeparser/jvm/classfile/reader"
 	"fmt"
 )
@@ -13,7 +14,7 @@ const (
 	AccPROTECTED  = 0x0004 // 标识类保护
 	AccSTATIC     = 0x0008 // 标识静态
 	AccFINAL      = 0x0010 // 是否是final类
-	AccSUPER      = 0x0020 // 是否允许使用invokespecial
+	AccSUPER      = 0x0020 // 是否允许使用invoke special
 	AccVOLATILE   = 0x0040 // 标识volatile
 	AccTRANSIENT  = 0x0080 // 标识不可序列化
 	AccINTERFACE  = 0x0200 // 标识一个接口类
@@ -38,13 +39,14 @@ type JvmClassFile struct {
 	superClass        uint16                    // 此类父类的全限定名的常量池索引
 	interfaceIndexSet []uint16                  // 此类实现的接口索引集合
 	fields            []field.Field             // 字段表
+	methods           []method.Method           // 方法表
 }
 
 // 读取接口索引集合
 func readInterfaceSet(r *reader.ByteCodeReader, cfile *JvmClassFile) {
 	size, ok := r.ReadU2()
 	if !ok {
-		panic("Read interface set size error")
+		panic(ErrorMsgFmt("Read interface set error", "can't read size info", r.Offset()))
 	}
 	if size == 0 {
 		return
@@ -54,7 +56,8 @@ func readInterfaceSet(r *reader.ByteCodeReader, cfile *JvmClassFile) {
 		if idx, ok := r.ReadU2(); ok {
 			cfile.interfaceIndexSet[i] = idx
 		} else {
-			panic("Read interface index error")
+			panic(ErrorMsgFmt("Read interface set error",
+				"can't read interface_index info", r.Offset()))
 		}
 	}
 }
@@ -65,15 +68,13 @@ func readFieldTable(r *reader.ByteCodeReader, cfile *JvmClassFile) {
 	if !ok {
 		panic(ErrorMsgFmt("Read field length error", "fatal", r.Offset()))
 	}
-	if length <= 0 {
-		return
-	}
 	cfile.fields = make([]field.Field, 0, length)
 	for i := uint16(0); i < length; i++ {
 		cfile.fields = append(cfile.fields, *field.New(r, cfile.cp))
 	}
 }
 
+// 读取魔数和版本信息
 func readMagicNumberAndVersion(r *reader.ByteCodeReader, cfile *JvmClassFile) {
 	if magicNumber, ok := r.ReadU4(); ok && magicNumber == 0xcafebabe {
 		cfile.magicNumber = magicNumber
@@ -92,6 +93,18 @@ func readMagicNumberAndVersion(r *reader.ByteCodeReader, cfile *JvmClassFile) {
 	}
 }
 
+// 读取方法表
+func readMethodTable(r *reader.ByteCodeReader, cfile *JvmClassFile) {
+	length, ok := r.ReadU2()
+	if !ok {
+		panic(ErrorMsgFmt("Read method error", "fatal", r.Offset()))
+	}
+	cfile.methods = make([]method.Method, 0, length)
+	for i := uint16(0); i < length; i++ {
+		cfile.methods = append(cfile.methods, *method.New(r, cfile.cp))
+	}
+}
+
 func NewJvmClassFile(r *reader.ByteCodeReader) *JvmClassFile {
 	ret := new(JvmClassFile)
 	readMagicNumberAndVersion(r, ret)
@@ -101,24 +114,25 @@ func NewJvmClassFile(r *reader.ByteCodeReader) *JvmClassFile {
 	if flags, ok := r.ReadU2(); ok {
 		ret.accessFlags = flags
 	} else {
-		panic("Read access flags error")
+		panic(ErrorMsgFmt("Read access flags error", "fatal", r.Offset()))
 	}
 	// 读取本类的全限定类名
 	if index, ok := r.ReadU2(); ok {
 		ret.thisClass = index
 	} else {
-		panic("Read this class error")
+		panic(ErrorMsgFmt("Read this class index error", "fatal", r.Offset()))
 	}
 	// 读取父类的全限定类名
 	if index, ok := r.ReadU2(); ok {
 		ret.superClass = index
 	} else {
-		panic("Read super class error")
+		panic(ErrorMsgFmt("Read super class index error", "fatal", r.Offset()))
 	}
 	// 读取接口索引集合
 	readInterfaceSet(r, ret)
 	// 读取字段表
 	readFieldTable(r, ret)
+	readMethodTable(r, ret)
 	return ret
 }
 
@@ -133,3 +147,7 @@ func (j *JvmClassFile) ConstantPool() constantpool.ConstantPool { return j.cp }
 func (j *JvmClassFile) AccessFlags() uint16 { return j.accessFlags }
 
 func (j *JvmClassFile) InterfaceIndexSet() []uint16 { return j.interfaceIndexSet }
+
+func (j *JvmClassFile) Fields() []field.Field { return j.fields }
+
+func (j *JvmClassFile) Methods() []method.Method { return j.methods }
