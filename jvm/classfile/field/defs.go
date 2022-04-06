@@ -2,8 +2,14 @@ package field
 
 import (
 	"bytecodeparser/jvm/classfile/attribute"
+	"bytecodeparser/jvm/classfile/constantpool"
 	"bytecodeparser/jvm/classfile/reader"
+	"fmt"
 )
+
+func ErrorMsgFmt(body, detail string, offset uint32) string {
+	return fmt.Sprintf("[ERROR]:  %s (%s) @%d", body, detail, offset)
+}
 
 type Field struct {
 	accessFlags     uint16                // 访问标志符
@@ -12,31 +18,43 @@ type Field struct {
 	attributes      []attribute.Attribute // 属性表
 }
 
+func (self *Field) String() string {
+	return fmt.Sprintf("flags: %b, name: @%d, descriptor: @%d",
+		self.accessFlags, self.nameIndex, self.descriptorIndex)
+}
+
+func (self *Field) GoString() string {
+	return self.String()
+}
+
 // New 新建一个属性
-func New(r *reader.ByteCodeReader) *Field {
+func New(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *Field {
 	ret := new(Field)
 	if flags, ok := r.ReadU2(); ok {
 		ret.accessFlags = flags
 	} else {
-		panic("Read field access flags error")
+		panic(ErrorMsgFmt("Read field error", "can't read access_flags info", r.Offset()))
 	}
 	if idx, ok := r.ReadU2(); ok {
 		ret.nameIndex = idx
 	} else {
-		panic("Read field name index error")
+		panic(ErrorMsgFmt("Read field error", "can't read name_index info", r.Offset()))
 	}
 	if desc, ok := r.ReadU2(); ok {
 		ret.descriptorIndex = desc
 	} else {
-		panic("Read field descriptor index error")
+		panic(ErrorMsgFmt("Read field error", "can't read descriptor_index info", r.Offset()))
 	}
 	// 读取字段的属性
 	if count, ok := r.ReadU2(); ok {
 		if count > 0 {
-			ret.attributes = make([]attribute.Attribute, count)
+			ret.attributes = make([]attribute.Attribute, 0, count)
+			for i := uint16(0); i < count; i++ {
+				ret.attributes = append(ret.attributes, attribute.New(r, cp))
+			}
 		}
 	} else {
-		panic("Read field attribute count error")
+		panic(ErrorMsgFmt("Read field error", "can't read attribute_count info", r.Offset()))
 	}
 	return ret
 }

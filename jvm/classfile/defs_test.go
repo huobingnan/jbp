@@ -28,6 +28,11 @@ func TestNewJvmClassFile(t *testing.T) {
 		t.Logf("Access flags: %x", jvmClassFile.accessFlags)
 		t.Logf("This class: %v", jvmClassFile.ConstantPool()[jvmClassFile.thisClass])
 		t.Logf("Super class: %v", jvmClassFile.ConstantPool()[jvmClassFile.superClass])
+		if jvmClassFile.fields != nil {
+			for _, each := range jvmClassFile.fields {
+				t.Log("Filed:", &each)
+			}
+		}
 	})
 
 	t.Run("InterfaceDemo.class", func(t *testing.T) {
