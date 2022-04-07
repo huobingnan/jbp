@@ -19,6 +19,7 @@ const (
 	StackMapTable             = "StackMapTable"             // 栈映射表
 	InnerClasses              = "InnerClasses"              // 内部类
 	RuntimeVisibleAnnotations = "RuntimeVisibleAnnotations" // 运行时可见注解
+	BootstrapMethods          = "BootstrapMethods"          // 启动方法
 )
 
 func ErrorMsgFmt(body, detail string, offset uint32) string {
@@ -61,6 +62,8 @@ func New(r *reader.ByteCodeReader, cp constantpool.ConstantPool) Attribute {
 		return NewRuntimeVisibleAnnotationsAttribute(r, cp)
 	case InnerClasses:
 		return NewInnerClassAttribute(r, cp)
+	case BootstrapMethods:
+		return NewBootstrapMethodsAttribute(r, cp)
 	default:
 		panic(ErrorMsgFmt("Unsupported attribute", name, r.Offset()))
 	}
