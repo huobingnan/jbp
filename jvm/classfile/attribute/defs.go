@@ -20,6 +20,7 @@ const (
 	InnerClasses              = "InnerClasses"              // 内部类
 	RuntimeVisibleAnnotations = "RuntimeVisibleAnnotations" // 运行时可见注解
 	BootstrapMethods          = "BootstrapMethods"          // 启动方法
+	NestMembers               = "NestMembers"               // 内部成员
 )
 
 func ErrorMsgFmt(body, detail string, offset uint32) string {
@@ -64,6 +65,8 @@ func New(r *reader.ByteCodeReader, cp constantpool.ConstantPool) Attribute {
 		return NewInnerClassAttribute(r, cp)
 	case BootstrapMethods:
 		return NewBootstrapMethodsAttribute(r, cp)
+	case NestMembers:
+		return NewNestMembersAttribute(r, cp)
 	default:
 		panic(ErrorMsgFmt("Unsupported attribute", name, r.Offset()))
 	}
