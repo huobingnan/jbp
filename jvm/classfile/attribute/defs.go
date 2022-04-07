@@ -17,7 +17,7 @@ const (
 	Synthetic                 = "Synthetic"                 // 非用户代码生成
 	ExceptionTable            = "Exception Table"           // 异常表
 	StackMapTable             = "StackMapTable"             // 栈映射表
-	InnerClass                = "InnerClass"                // 内部类
+	InnerClasses              = "InnerClasses"              // 内部类
 	RuntimeVisibleAnnotations = "RuntimeVisibleAnnotations" // 运行时可见注解
 )
 
@@ -59,6 +59,8 @@ func New(r *reader.ByteCodeReader, cp constantpool.ConstantPool) Attribute {
 		return NewStackMapTableAttribute(r, cp)
 	case RuntimeVisibleAnnotations:
 		return NewRuntimeVisibleAnnotationsAttribute(r, cp)
+	case InnerClasses:
+		return NewInnerClassAttribute(r, cp)
 	default:
 		panic(ErrorMsgFmt("Unsupported attribute", name, r.Offset()))
 	}
