@@ -55,6 +55,10 @@ func TestNewJvmClassFile(t *testing.T) {
 		_basicallyPrintClassFile(filepath.Join(testingDataDir, "TurnLock.class"), t)
 	})
 
+	t.Run("Exceptions.class", func(t *testing.T) {
+		_basicallyPrintClassFile(filepath.Join(testingDataDir, "Exceptions.class"), t)
+	})
+
 	t.Run("InnerClass.class", func(t *testing.T) {
 		_basicallyPrintClassFile(filepath.Join(testingDataDir, "InnerClass.class"), t)
 	})
