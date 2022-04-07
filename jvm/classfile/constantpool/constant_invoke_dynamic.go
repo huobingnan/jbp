@@ -14,7 +14,7 @@ func (i *InvokeDynamicConstant) Tag() int {
 }
 
 func (i *InvokeDynamicConstant) Value() interface{} {
-	return []int{int(i.bootstrapMethodAttrIndex), int(i.nameAndTypeIndex)}
+	return []uint16{i.bootstrapMethodAttrIndex, i.nameAndTypeIndex}
 }
 
 func (i *InvokeDynamicConstant) String() string {

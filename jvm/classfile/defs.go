@@ -29,6 +29,10 @@ func ErrorMsgFmt(body, detail string, offset uint32) string {
 	return fmt.Sprintf("[ERROR]:  %s (%s) @%d", body, detail, offset)
 }
 
+type Printer interface {
+	Print(file *JvmClassFile)
+}
+
 type JvmClassFile struct {
 	magicNumber       uint32                    // 魔数
 	majorVersion      uint16                    // 主版本号
@@ -151,3 +155,5 @@ func (j *JvmClassFile) InterfaceIndexSet() []uint16 { return j.interfaceIndexSet
 func (j *JvmClassFile) Fields() []field.Field { return j.fields }
 
 func (j *JvmClassFile) Methods() []method.Method { return j.methods }
+
+func (j *JvmClassFile) Print(printer Printer) { printer.Print(j) }

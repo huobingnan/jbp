@@ -14,7 +14,7 @@ func (n *NameAndTypeConstant) Tag() int {
 }
 
 func (n *NameAndTypeConstant) Value() interface{} {
-	return []int{int(n.nameIndex), int(n.descriptorIndex)}
+	return []uint16{n.nameIndex, n.descriptorIndex}
 }
 
 func (n *NameAndTypeConstant) String() string {

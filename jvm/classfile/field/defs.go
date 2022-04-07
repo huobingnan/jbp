@@ -19,7 +19,7 @@ type Field struct {
 }
 
 func (self *Field) String() string {
-	return fmt.Sprintf("flags: %b, name: @%d, descriptor: @%d",
+	return fmt.Sprintf("flags: %016b, name: @%d, descriptor: @%d",
 		self.accessFlags, self.nameIndex, self.descriptorIndex)
 }
 

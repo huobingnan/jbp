@@ -36,6 +36,7 @@ func TestNewJvmClassFile(t *testing.T) {
 		for _, method := range jvmClassFile.Methods() {
 			t.Log("Method:", &method)
 		}
+		jvmClassFile.Print(new(SimpleConsolePrinter))
 	})
 
 	t.Run("InterfaceDemo.class", func(t *testing.T) {

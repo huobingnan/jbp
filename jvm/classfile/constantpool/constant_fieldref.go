@@ -14,7 +14,7 @@ func (f *FieldRefConstant) Tag() int {
 }
 
 func (f *FieldRefConstant) Value() interface{} {
-	return []int{int(f.classInfoIndex), int(f.nameAndTypeInfoIndex)}
+	return []uint16{f.classInfoIndex, f.nameAndTypeInfoIndex}
 }
 
 func (f *FieldRefConstant) String() string {

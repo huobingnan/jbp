@@ -14,7 +14,7 @@ func (m *MethodRefConstant) Tag() int {
 }
 
 func (m *MethodRefConstant) Value() interface{} {
-	return []int{int(m.classInfoIndex), int(m.nameAndTypeInfoIndex)}
+	return []uint16{m.classInfoIndex, m.nameAndTypeInfoIndex}
 }
 
 func (m *MethodRefConstant) String() string {

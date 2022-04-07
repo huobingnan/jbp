@@ -15,7 +15,7 @@ func (m *MethodHandleConstant) Tag() int {
 }
 
 func (m *MethodHandleConstant) Value() interface{} {
-	return []int{int(m.referenceKind), int(m.referenceIndex)}
+	return []uint16{uint16(m.referenceKind), m.referenceIndex}
 }
 
 func (m *MethodHandleConstant) String() string {
