@@ -165,3 +165,7 @@ func (j *JvmClassFile) Fields() []field.JvmClassFileField { return j.fields }
 func (j *JvmClassFile) Methods() []method.JvmClassFileMethod { return j.methods }
 
 func (j *JvmClassFile) Attributes() []attribute.JvmClassFileAttribute { return j.attributes }
+
+func (j *JvmClassFile) ThisClass() uint16 { return j.thisClass }
+
+func (j *JvmClassFile) SuperClass() uint16 { return j.superClass }
