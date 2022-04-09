@@ -1,6 +1,7 @@
-package classfile
+package console
 
 import (
+	"bytecodeparser/jvm/classfile"
 	"bytecodeparser/jvm/classfile/constantpool"
 	"fmt"
 )
@@ -8,7 +9,7 @@ import (
 type SimpleConsolePrinter struct {
 }
 
-func _printConstantPool(cfile *JvmClassFile) {
+func _printConstantPool(cfile *classfile.JvmClassFile) {
 	fmt.Printf("Constant Pool:\n")
 	pool := cfile.ConstantPool()
 	var index1, index2 uint16
@@ -60,7 +61,7 @@ func _printConstantPool(cfile *JvmClassFile) {
 	}
 }
 
-func (s *SimpleConsolePrinter) Print(cfile *JvmClassFile) {
+func (s *SimpleConsolePrinter) Print(cfile *classfile.JvmClassFile) {
 	if cfile == nil {
 		return
 	}
