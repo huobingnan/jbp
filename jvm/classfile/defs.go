@@ -43,7 +43,7 @@ type JvmClassFile struct {
 	thisClass         uint16                            // 此类全限定名的常量池索引
 	superClass        uint16                            // 此类父类的全限定名的常量池索引
 	interfaceIndexSet []uint16                          // 此类实现的接口索引集合
-	fields            []field.Field                     // 字段表
+	fields            []field.JvmClassFileField         // 字段表
 	methods           []method.JvmClassFileMethod       // 方法表
 	attributes        []attribute.JvmClassFileAttribute // 属性表
 }
@@ -74,7 +74,7 @@ func readFieldTable(r *reader.ByteCodeReader, cfile *JvmClassFile) {
 	if !ok {
 		panic(ErrorMsgFmt("Read field length error", "fatal", r.Offset()))
 	}
-	cfile.fields = make([]field.Field, 0, length)
+	cfile.fields = make([]field.JvmClassFileField, 0, length)
 	for i := uint16(0); i < length; i++ {
 		cfile.fields = append(cfile.fields, *field.New(r, cfile.cp))
 	}
@@ -164,7 +164,7 @@ func (j *JvmClassFile) AccessFlags() uint16 { return j.accessFlags }
 
 func (j *JvmClassFile) InterfaceIndexSet() []uint16 { return j.interfaceIndexSet }
 
-func (j *JvmClassFile) Fields() []field.Field { return j.fields }
+func (j *JvmClassFile) Fields() []field.JvmClassFileField { return j.fields }
 
 func (j *JvmClassFile) Methods() []method.JvmClassFileMethod { return j.methods }
 

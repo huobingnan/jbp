@@ -11,25 +11,25 @@ func ErrorMsgFmt(body, detail string, offset uint32) string {
 	return fmt.Sprintf("[ERROR]:  %s (%s) @%d", body, detail, offset)
 }
 
-type Field struct {
+type JvmClassFileField struct {
 	accessFlags     uint16                            // 访问标志符
 	nameIndex       uint16                            // 名称在常量池中索引
 	descriptorIndex uint16                            // 描述符在常量池中索引
 	attributes      []attribute.JvmClassFileAttribute // 属性表
 }
 
-func (self *Field) String() string {
+func (self *JvmClassFileField) String() string {
 	return fmt.Sprintf("flags: %016b, name: @%d, descriptor: @%d",
 		self.accessFlags, self.nameIndex, self.descriptorIndex)
 }
 
-func (self *Field) GoString() string {
+func (self *JvmClassFileField) GoString() string {
 	return self.String()
 }
 
 // New 新建一个属性
-func New(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *Field {
-	ret := new(Field)
+func New(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *JvmClassFileField {
+	ret := new(JvmClassFileField)
 	if flags, ok := r.ReadU2(); ok {
 		ret.accessFlags = flags
 	} else {
