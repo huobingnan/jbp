@@ -12,10 +12,10 @@ func ErrorMsgFmt(body, detail string, offset uint32) string {
 }
 
 type Field struct {
-	accessFlags     uint16                // 访问标志符
-	nameIndex       uint16                // 名称在常量池中索引
-	descriptorIndex uint16                // 描述符在常量池中索引
-	attributes      []attribute.Attribute // 属性表
+	accessFlags     uint16                            // 访问标志符
+	nameIndex       uint16                            // 名称在常量池中索引
+	descriptorIndex uint16                            // 描述符在常量池中索引
+	attributes      []attribute.JvmClassFileAttribute // 属性表
 }
 
 func (self *Field) String() string {
@@ -48,7 +48,7 @@ func New(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *Field {
 	// 读取字段的属性
 	if count, ok := r.ReadU2(); ok {
 		if count > 0 {
-			ret.attributes = make([]attribute.Attribute, 0, count)
+			ret.attributes = make([]attribute.JvmClassFileAttribute, 0, count)
 			for i := uint16(0); i < count; i++ {
 				ret.attributes = append(ret.attributes, attribute.New(r, cp))
 			}

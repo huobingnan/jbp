@@ -12,7 +12,7 @@ type CodeAttribute struct {
 	MaxLocals      uint16
 	Code           []byte
 	ExceptionTable []ExceptionTableAttribute
-	Attributes     []Attribute
+	Attributes     []JvmClassFileAttribute
 }
 
 func (c *CodeAttribute) Name() string { return Code }
@@ -57,7 +57,7 @@ func _newCodeAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *
 	}
 	// 读取其他属性
 	if ac, ok := r.ReadU2(); ok {
-		ret.Attributes = make([]Attribute, ac)
+		ret.Attributes = make([]JvmClassFileAttribute, ac)
 		for i := 0; i < int(ac); i++ {
 			ret.Attributes[i] = New(r, cp)
 		}

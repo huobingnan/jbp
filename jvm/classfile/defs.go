@@ -35,17 +35,17 @@ type Printer interface {
 }
 
 type JvmClassFile struct {
-	magicNumber       uint32                    // 魔数
-	majorVersion      uint16                    // 主版本号
-	minorVersion      uint16                    // 次版本号
-	cp                constantpool.ConstantPool // 常量池
-	accessFlags       uint16                    // 访问标志
-	thisClass         uint16                    // 此类全限定名的常量池索引
-	superClass        uint16                    // 此类父类的全限定名的常量池索引
-	interfaceIndexSet []uint16                  // 此类实现的接口索引集合
-	fields            []field.Field             // 字段表
-	methods           []method.Method           // 方法表
-	attributes        []attribute.Attribute     // 属性表
+	magicNumber       uint32                            // 魔数
+	majorVersion      uint16                            // 主版本号
+	minorVersion      uint16                            // 次版本号
+	cp                constantpool.ConstantPool         // 常量池
+	accessFlags       uint16                            // 访问标志
+	thisClass         uint16                            // 此类全限定名的常量池索引
+	superClass        uint16                            // 此类父类的全限定名的常量池索引
+	interfaceIndexSet []uint16                          // 此类实现的接口索引集合
+	fields            []field.Field                     // 字段表
+	methods           []method.Method                   // 方法表
+	attributes        []attribute.JvmClassFileAttribute // 属性表
 }
 
 // 读取接口索引集合
@@ -117,7 +117,7 @@ func _readAttributeTable(r *reader.ByteCodeReader, cfile *JvmClassFile) {
 	if !ok {
 		panic(ErrorMsgFmt("Read attribute table error", "fatal", r.Offset()))
 	}
-	cfile.attributes = make([]attribute.Attribute, 0, attrLen)
+	cfile.attributes = make([]attribute.JvmClassFileAttribute, 0, attrLen)
 	for i := uint16(0); i < attrLen; i++ {
 		cfile.attributes = append(cfile.attributes, attribute.New(r, cfile.cp))
 	}
@@ -168,6 +168,6 @@ func (j *JvmClassFile) Fields() []field.Field { return j.fields }
 
 func (j *JvmClassFile) Methods() []method.Method { return j.methods }
 
-func (j *JvmClassFile) Attributes() []attribute.Attribute { return j.attributes }
+func (j *JvmClassFile) Attributes() []attribute.JvmClassFileAttribute { return j.attributes }
 
 func (j *JvmClassFile) Print(printer Printer) { printer.Print(j) }
