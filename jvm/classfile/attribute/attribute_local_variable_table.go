@@ -56,7 +56,7 @@ func readLocalVariableInfo(r *reader.ByteCodeReader) LocalVariableInfo {
 	return info
 }
 
-func NewLocalVariableTableAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *LocalVariableTableAttribute {
+func _newLocalVariableTableAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *LocalVariableTableAttribute {
 	var ok bool
 	ret := new(LocalVariableTableAttribute)
 	ret.length, ok = r.ReadU4()

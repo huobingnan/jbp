@@ -21,7 +21,7 @@ func (i *InnerClassAttribute) Name() string { return InnerClasses }
 
 func (i *InnerClassAttribute) Length() uint32 { return i.length }
 
-func NewInnerClassAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *InnerClassAttribute {
+func _newInnerClassAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *InnerClassAttribute {
 	var ok bool
 	ret := new(InnerClassAttribute)
 	ret.length, ok = r.ReadU4()

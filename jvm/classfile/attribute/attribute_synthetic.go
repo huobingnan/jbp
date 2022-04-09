@@ -15,7 +15,7 @@ func (s *SyntheticAttribute) Length() uint32 { return 0 }
 
 func (s *SyntheticAttribute) Get(key string) interface{} { return nil }
 
-func NewSyntheticAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *SyntheticAttribute {
+func _newSyntheticAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *SyntheticAttribute {
 	r.ReadU4()
 	return new(SyntheticAttribute)
 }

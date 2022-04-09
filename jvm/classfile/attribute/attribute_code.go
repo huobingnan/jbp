@@ -19,7 +19,7 @@ func (c *CodeAttribute) Name() string { return Code }
 
 func (c *CodeAttribute) Length() uint32 { return c.length }
 
-func NewCodeAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *CodeAttribute {
+func _newCodeAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *CodeAttribute {
 	ret := new(CodeAttribute)
 	if l, ok := r.ReadU4(); ok {
 		ret.length = l
@@ -52,7 +52,7 @@ func NewCodeAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *C
 	if el, ok := r.ReadU2(); ok {
 		ret.ExceptionTable = make([]ExceptionTableAttribute, el)
 		for i := 0; i < int(el); i++ {
-			ret.ExceptionTable[i] = *NewExceptionTableAttribute(r, cp)
+			ret.ExceptionTable[i] = *_newExceptionTableAttribute(r, cp)
 		}
 	}
 	// 读取其他属性

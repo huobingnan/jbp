@@ -11,11 +11,11 @@ type SourceFileAttribute struct {
 	Index  uint16
 }
 
-func (self *SourceFileAttribute) Name() string { return SourceFile }
+func (s *SourceFileAttribute) Name() string { return SourceFile }
 
-func (self *SourceFileAttribute) Length() uint32 { return self.length }
+func (s *SourceFileAttribute) Length() uint32 { return s.length }
 
-func NewSourceFileAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *SourceFileAttribute {
+func _newSourceFileAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *SourceFileAttribute {
 	var ok bool
 	ret := new(SourceFileAttribute)
 	ret.length, ok = r.ReadU4()

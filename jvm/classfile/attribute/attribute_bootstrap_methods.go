@@ -19,7 +19,7 @@ func (b *BootstrapMethodsAttribute) Name() string { return BootstrapMethods }
 
 func (b *BootstrapMethodsAttribute) Length() uint32 { return b.length }
 
-func NewBootstrapMethodsAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *BootstrapMethodsAttribute {
+func _newBootstrapMethodsAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *BootstrapMethodsAttribute {
 	var ok bool
 	ret := new(BootstrapMethodsAttribute)
 	ret.length, ok = r.ReadU4()

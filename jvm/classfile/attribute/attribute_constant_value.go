@@ -14,7 +14,7 @@ func (self *ConstantValueAttribute) Name() string { return ConstantValue }
 
 func (self *ConstantValueAttribute) Length() uint32 { return self.length }
 
-func NewConstantValueAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *ConstantValueAttribute {
+func _newConstantValueAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *ConstantValueAttribute {
 	var ok bool
 	ret := new(ConstantValueAttribute)
 	ret.length, ok = r.ReadU4()

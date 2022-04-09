@@ -58,7 +58,7 @@ func readAnnotation(r *reader.ByteCodeReader) Annotation {
 	return annotation
 }
 
-func NewRuntimeVisibleAnnotationsAttribute(r *reader.ByteCodeReader,
+func _newRuntimeVisibleAnnotationsAttribute(r *reader.ByteCodeReader,
 	cp constantpool.ConstantPool) *RuntimeVisibleAnnotationsAttribute {
 	var ok bool
 	ret := new(RuntimeVisibleAnnotationsAttribute)

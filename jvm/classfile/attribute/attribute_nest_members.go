@@ -14,7 +14,7 @@ func (n *NestMembersAttribute) Name() string { return NestMembers }
 
 func (n *NestMembersAttribute) Length() uint32 { return n.length }
 
-func NewNestMembersAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *NestMembersAttribute {
+func _newNestMembersAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *NestMembersAttribute {
 	var ok bool
 	ret := new(NestMembersAttribute)
 	ret.length, ok = r.ReadU4()

@@ -42,31 +42,31 @@ func New(r *reader.ByteCodeReader, cp constantpool.ConstantPool) Attribute {
 	}
 	switch name {
 	case Code:
-		return NewCodeAttribute(r, cp)
+		return _newCodeAttribute(r, cp)
 	case ConstantValue:
-		return NewConstantValueAttribute(r, cp)
+		return _newConstantValueAttribute(r, cp)
 	case Deprecated:
-		return NewDeprecatedAttribute(r, cp)
+		return _newDeprecatedAttribute(r, cp)
 	case Exceptions:
-		return NewExceptionsAttribute(r, cp)
+		return _newExceptionsAttribute(r, cp)
 	case LineNumberTable:
-		return NewLineNumberTableAttribute(r, cp)
+		return _newLineNumberTableAttribute(r, cp)
 	case LocalVariableTable:
-		return NewLocalVariableTableAttribute(r, cp)
+		return _newLocalVariableTableAttribute(r, cp)
 	case SourceFile:
-		return NewSourceFileAttribute(r, cp)
+		return _newSourceFileAttribute(r, cp)
 	case Synthetic:
-		return NewSyntheticAttribute(r, cp)
+		return _newSyntheticAttribute(r, cp)
 	case StackMapTable:
-		return NewStackMapTableAttribute(r, cp)
+		return _newStackMapTableAttribute(r, cp)
 	case RuntimeVisibleAnnotations:
-		return NewRuntimeVisibleAnnotationsAttribute(r, cp)
+		return _newRuntimeVisibleAnnotationsAttribute(r, cp)
 	case InnerClasses:
-		return NewInnerClassAttribute(r, cp)
+		return _newInnerClassAttribute(r, cp)
 	case BootstrapMethods:
-		return NewBootstrapMethodsAttribute(r, cp)
+		return _newBootstrapMethodsAttribute(r, cp)
 	case NestMembers:
-		return NewNestMembersAttribute(r, cp)
+		return _newNestMembersAttribute(r, cp)
 	default:
 		panic(ErrorMsgFmt("Unsupported attribute", name, r.Offset()))
 	}

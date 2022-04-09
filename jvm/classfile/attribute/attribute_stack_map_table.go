@@ -45,7 +45,7 @@ func (s *StackMapTableAttribute) Name() string { return StackMapTable }
 
 func (s *StackMapTableAttribute) Length() uint32 { return 0 }
 
-func processVerificationTypeInfo(r *reader.ByteCodeReader, tag byte) []byte {
+func _processVerificationTypeInfo(r *reader.ByteCodeReader, tag byte) []byte {
 	switch {
 	case tag == ItemObject || tag == ItemUninitialized:
 		ret, ok := r.ReadAny(2)
@@ -58,18 +58,18 @@ func processVerificationTypeInfo(r *reader.ByteCodeReader, tag byte) []byte {
 	}
 }
 
-func readSameFrame(r *reader.ByteCodeReader, s *StackMapTableAttribute, value byte) {
+func _readSameFrame(r *reader.ByteCodeReader, s *StackMapTableAttribute, value byte) {
 	s.Entries = append(s.Entries, StackMapFrame{nil, SameFrame, value})
 }
 
-func readSameLocals1StackItemFrame(r *reader.ByteCodeReader, s *StackMapTableAttribute, value byte) {
+func _readSameLocals1StackItemFrame(r *reader.ByteCodeReader, s *StackMapTableAttribute, value byte) {
 	tag, ok := r.ReadU1()
 	if !ok {
 		panic(ErrorMsgFmt("Read stack map frame `same_locals_1_stack_item_frame` error",
 			strconv.Itoa(int(tag)), r.Offset()))
 	}
 	source := []byte{tag}
-	verificationTypeInfo := processVerificationTypeInfo(r, tag)
+	verificationTypeInfo := _processVerificationTypeInfo(r, tag)
 	if verificationTypeInfo != nil {
 		for _, each := range verificationTypeInfo {
 			source = append(source, each)
@@ -78,7 +78,7 @@ func readSameLocals1StackItemFrame(r *reader.ByteCodeReader, s *StackMapTableAtt
 	s.Entries = append(s.Entries, StackMapFrame{source, SameLocals1StackItemFrame, value})
 }
 
-func readSameLocals1StackItemFrameExtended(r *reader.ByteCodeReader, s *StackMapTableAttribute, value byte) {
+func _readSameLocals1StackItemFrameExtended(r *reader.ByteCodeReader, s *StackMapTableAttribute, value byte) {
 	offset, ok := r.ReadAny(2)
 	if !ok {
 		panic(ErrorMsgFmt("Read stack map frame `same_locals_1_stack_item_frame_extended` error",
@@ -90,7 +90,7 @@ func readSameLocals1StackItemFrameExtended(r *reader.ByteCodeReader, s *StackMap
 			"can't read verification_tag info", r.Offset()))
 	}
 	source := []byte{vtag, offset[0], offset[1]}
-	verificationTypeInfo := processVerificationTypeInfo(r, vtag)
+	verificationTypeInfo := _processVerificationTypeInfo(r, vtag)
 	if verificationTypeInfo != nil {
 		for _, each := range verificationTypeInfo {
 			source = append(source, each)
@@ -99,7 +99,7 @@ func readSameLocals1StackItemFrameExtended(r *reader.ByteCodeReader, s *StackMap
 	s.Entries = append(s.Entries, StackMapFrame{source, SameLocals1StackItemFrameExtended, value})
 }
 
-func readSameFrameExtended(r *reader.ByteCodeReader, s *StackMapTableAttribute, value byte) {
+func _readSameFrameExtended(r *reader.ByteCodeReader, s *StackMapTableAttribute, value byte) {
 	offset, ok := r.ReadAny(2)
 	if !ok {
 		panic(ErrorMsgFmt("Read stack map frame `same_frame_extended` error",
@@ -108,7 +108,7 @@ func readSameFrameExtended(r *reader.ByteCodeReader, s *StackMapTableAttribute, 
 	s.Entries = append(s.Entries, StackMapFrame{offset, SameFrameExtended, value})
 }
 
-func readAppendFrame(r *reader.ByteCodeReader, s *StackMapTableAttribute, value byte) {
+func _readAppendFrame(r *reader.ByteCodeReader, s *StackMapTableAttribute, value byte) {
 	offset, ok := r.ReadAny(2)
 	if !ok {
 		panic(ErrorMsgFmt("Read stack map frame `append_frame` error",
@@ -121,7 +121,7 @@ func readAppendFrame(r *reader.ByteCodeReader, s *StackMapTableAttribute, value 
 			panic(ErrorMsgFmt("Read stack map frame `append_frame` error",
 				"can't read vtag info", r.Offset()))
 		}
-		verificationTypeInfo := processVerificationTypeInfo(r, vtag)
+		verificationTypeInfo := _processVerificationTypeInfo(r, vtag)
 		if verificationTypeInfo != nil {
 			for _, each := range verificationTypeInfo {
 				source = append(source, each)
@@ -132,7 +132,7 @@ func readAppendFrame(r *reader.ByteCodeReader, s *StackMapTableAttribute, value 
 	s.Entries = append(s.Entries, StackMapFrame{source, ChopFrame, value})
 }
 
-func readChopFrame(r *reader.ByteCodeReader, s *StackMapTableAttribute, value byte) {
+func _readChopFrame(r *reader.ByteCodeReader, s *StackMapTableAttribute, value byte) {
 	offset, ok := r.ReadAny(2)
 	if !ok {
 		panic(ErrorMsgFmt("Read stack map frame `chop_frame` error",
@@ -141,7 +141,7 @@ func readChopFrame(r *reader.ByteCodeReader, s *StackMapTableAttribute, value by
 	s.Entries = append(s.Entries, StackMapFrame{offset, ChopFrame, value})
 }
 
-func readFullFrame(r *reader.ByteCodeReader, s *StackMapTableAttribute, value byte) {
+func _readFullFrame(r *reader.ByteCodeReader, s *StackMapTableAttribute, value byte) {
 	var numbers []byte = make([]byte, 2) // 用于缓冲数字
 	offset, ok := r.ReadAny(2)
 	if !ok {
@@ -164,7 +164,7 @@ func readFullFrame(r *reader.ByteCodeReader, s *StackMapTableAttribute, value by
 			panic(ErrorMsgFmt("Read stack map frame `chop_frame` error",
 				"can't read locals_tag info", r.Offset()))
 		}
-		verificationTypeInfo := processVerificationTypeInfo(r, vtag)
+		verificationTypeInfo := _processVerificationTypeInfo(r, vtag)
 		if verificationTypeInfo != nil {
 			for _, each := range verificationTypeInfo {
 				source = append(source, each)
@@ -186,7 +186,7 @@ func readFullFrame(r *reader.ByteCodeReader, s *StackMapTableAttribute, value by
 			panic(ErrorMsgFmt("Read stack map frame `chop_frame` error",
 				"can't read stack_item info", r.Offset()))
 		}
-		verificationTypeInfo := processVerificationTypeInfo(r, vtag)
+		verificationTypeInfo := _processVerificationTypeInfo(r, vtag)
 		if verificationTypeInfo != nil {
 			for _, each := range verificationTypeInfo {
 				source = append(source, each)
@@ -196,7 +196,7 @@ func readFullFrame(r *reader.ByteCodeReader, s *StackMapTableAttribute, value by
 	s.Entries = append(s.Entries, StackMapFrame{source, FullFrame, value})
 }
 
-func NewStackMapTableAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *StackMapTableAttribute {
+func _newStackMapTableAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *StackMapTableAttribute {
 	var ok bool
 	ret := new(StackMapTableAttribute)
 	ret.length, ok = r.ReadU4()
@@ -211,7 +211,6 @@ func NewStackMapTableAttribute(r *reader.ByteCodeReader, cp constantpool.Constan
 	}
 
 	ret.Entries = make([]StackMapFrame, 0, numberOfEntries)
-	// TODO 解析StackFrame
 	for i := uint16(0); i < numberOfEntries; i++ {
 		frameType, ok := r.ReadU1()
 		if !ok {
@@ -219,19 +218,19 @@ func NewStackMapTableAttribute(r *reader.ByteCodeReader, cp constantpool.Constan
 				"can't read frame_type info", r.Offset()))
 		}
 		if frameType <= 63 {
-			readSameFrame(r, ret, frameType)
+			_readSameFrame(r, ret, frameType)
 		} else if 64 <= frameType && frameType <= 127 {
-			readSameLocals1StackItemFrame(r, ret, frameType)
+			_readSameLocals1StackItemFrame(r, ret, frameType)
 		} else if frameType == 247 {
-			readSameLocals1StackItemFrameExtended(r, ret, frameType)
+			_readSameLocals1StackItemFrameExtended(r, ret, frameType)
 		} else if 248 <= frameType && frameType <= 250 {
-			readChopFrame(r, ret, frameType)
+			_readChopFrame(r, ret, frameType)
 		} else if frameType == 251 {
-			readSameFrameExtended(r, ret, frameType)
+			_readSameFrameExtended(r, ret, frameType)
 		} else if 252 <= frameType && frameType <= 254 {
-			readAppendFrame(r, ret, frameType)
+			_readAppendFrame(r, ret, frameType)
 		} else {
-			readFullFrame(r, ret, frameType)
+			_readFullFrame(r, ret, frameType)
 		}
 	}
 	return ret
