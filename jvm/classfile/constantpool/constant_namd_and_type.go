@@ -6,7 +6,8 @@ import (
 )
 
 type NameAndTypeConstant struct {
-	nameIndex, descriptorIndex uint16
+	NameIndex       uint16
+	DescriptorIndex uint16
 }
 
 func (n *NameAndTypeConstant) Tag() int {
@@ -14,11 +15,11 @@ func (n *NameAndTypeConstant) Tag() int {
 }
 
 func (n *NameAndTypeConstant) Value() interface{} {
-	return []uint16{n.nameIndex, n.descriptorIndex}
+	return []uint16{n.NameIndex, n.DescriptorIndex}
 }
 
 func (n *NameAndTypeConstant) String() string {
-	return fmt.Sprintf("<CONSTANT_NameAndType_info: @%d, @%d>", n.nameIndex, n.descriptorIndex)
+	return fmt.Sprintf("<CONSTANT_NameAndType_info: @%d, @%d>", n.NameIndex, n.DescriptorIndex)
 }
 
 func (n *NameAndTypeConstant) GoString() string {
@@ -28,14 +29,14 @@ func (n *NameAndTypeConstant) GoString() string {
 func _newNameAndTypeConstant(r *reader.ByteCodeReader) *NameAndTypeConstant {
 	ret := new(NameAndTypeConstant)
 	if classInfoIndex, ok := r.ReadU2(); ok {
-		ret.nameIndex = classInfoIndex
+		ret.NameIndex = classInfoIndex
 	} else {
-		panic("Read field ref (class info index) error")
+		panic("Read field ref (class info Index) error")
 	}
 	if nameAndTypeIndex, ok := r.ReadU2(); ok {
-		ret.descriptorIndex = nameAndTypeIndex
+		ret.DescriptorIndex = nameAndTypeIndex
 	} else {
-		panic("Read field ref (name and type index) error")
+		panic("Read field ref (name and type Index) error")
 	}
 	return ret
 }

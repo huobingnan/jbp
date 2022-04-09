@@ -7,7 +7,7 @@ import (
 
 // IntegerConstant 整型常量池常量
 type IntegerConstant struct {
-	value int
+	IntegerValue int
 }
 
 func (i *IntegerConstant) Tag() int {
@@ -15,11 +15,11 @@ func (i *IntegerConstant) Tag() int {
 }
 
 func (i *IntegerConstant) Value() interface{} {
-	return i.value
+	return i.IntegerValue
 }
 
 func (i *IntegerConstant) String() string {
-	return fmt.Sprintf("<CONSTANT_Integer_info: %d>", i.value)
+	return fmt.Sprintf("<CONSTANT_Integer_info: %d>", i.IntegerValue)
 }
 
 func (i *IntegerConstant) GoString() string {

@@ -6,7 +6,8 @@ import (
 )
 
 type FieldRefConstant struct {
-	classInfoIndex, nameAndTypeInfoIndex uint16
+	ClassInfoIndex       uint16
+	NameAndTypeInfoIndex uint16
 }
 
 func (f *FieldRefConstant) Tag() int {
@@ -14,11 +15,11 @@ func (f *FieldRefConstant) Tag() int {
 }
 
 func (f *FieldRefConstant) Value() interface{} {
-	return []uint16{f.classInfoIndex, f.nameAndTypeInfoIndex}
+	return []uint16{f.ClassInfoIndex, f.NameAndTypeInfoIndex}
 }
 
 func (f *FieldRefConstant) String() string {
-	return fmt.Sprintf("<CONSTANT_Fieldref_info: @%d, @%d>", f.classInfoIndex, f.nameAndTypeInfoIndex)
+	return fmt.Sprintf("<CONSTANT_Fieldref_info: @%d, @%d>", f.ClassInfoIndex, f.NameAndTypeInfoIndex)
 }
 
 func (f *FieldRefConstant) GoString() string {
@@ -28,14 +29,14 @@ func (f *FieldRefConstant) GoString() string {
 func _newFieldRefConstant(r *reader.ByteCodeReader) *FieldRefConstant {
 	ret := new(FieldRefConstant)
 	if classInfoIndex, ok := r.ReadU2(); ok {
-		ret.classInfoIndex = classInfoIndex
+		ret.ClassInfoIndex = classInfoIndex
 	} else {
-		panic("Read field ref (class info index) error")
+		panic("Read field ref (class info Index) error")
 	}
 	if nameAndTypeIndex, ok := r.ReadU2(); ok {
-		ret.nameAndTypeInfoIndex = nameAndTypeIndex
+		ret.NameAndTypeInfoIndex = nameAndTypeIndex
 	} else {
-		panic("Read field ref (name and type index) error")
+		panic("Read field ref (name and type Index) error")
 	}
 	return ret
 }

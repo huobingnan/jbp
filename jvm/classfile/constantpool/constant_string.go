@@ -6,7 +6,7 @@ import (
 )
 
 type StringConstant struct {
-	index uint16
+	Index uint16
 }
 
 func (s *StringConstant) Tag() int {
@@ -14,11 +14,11 @@ func (s *StringConstant) Tag() int {
 }
 
 func (s *StringConstant) Value() interface{} {
-	return s.index
+	return s.Index
 }
 
 func (s *StringConstant) String() string {
-	return fmt.Sprintf("<CONSTANT_String_info: @%d>", s.index)
+	return fmt.Sprintf("<CONSTANT_String_info: @%d>", s.Index)
 }
 
 func (s *StringConstant) GoString() string {
@@ -28,7 +28,7 @@ func (s *StringConstant) GoString() string {
 func _newStringConstant(r *reader.ByteCodeReader) *StringConstant {
 	if index, ok := r.ReadU2(); ok {
 		return &StringConstant{
-			index: index,
+			Index: index,
 		}
 	} else {
 		panic("Read string constant error")

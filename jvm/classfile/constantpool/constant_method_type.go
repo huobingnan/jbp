@@ -6,7 +6,7 @@ import (
 )
 
 type MethodTypeConstant struct {
-	descriptorIndex uint16
+	DescriptorIndex uint16
 }
 
 func (m *MethodTypeConstant) Tag() int {
@@ -14,11 +14,11 @@ func (m *MethodTypeConstant) Tag() int {
 }
 
 func (m *MethodTypeConstant) Value() interface{} {
-	return m.descriptorIndex
+	return m.DescriptorIndex
 }
 
 func (m *MethodTypeConstant) String() string {
-	return fmt.Sprintf("<CONSTANT_MethodType_info: @%d>", m.descriptorIndex)
+	return fmt.Sprintf("<CONSTANT_MethodType_info: @%d>", m.DescriptorIndex)
 }
 
 func (m *MethodTypeConstant) GoString() string {
@@ -28,7 +28,7 @@ func (m *MethodTypeConstant) GoString() string {
 func _newMethodTypeConstant(r *reader.ByteCodeReader) *MethodTypeConstant {
 	if index, ok := r.ReadU2(); ok {
 		return &MethodTypeConstant{
-			descriptorIndex: index,
+			DescriptorIndex: index,
 		}
 	}
 	panic("Read method type constant error")

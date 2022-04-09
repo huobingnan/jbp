@@ -7,7 +7,7 @@ import (
 )
 
 type Utf8Constant struct {
-	value string
+	Utf8Value string
 }
 
 func (u *Utf8Constant) Tag() int {
@@ -15,11 +15,11 @@ func (u *Utf8Constant) Tag() int {
 }
 
 func (u *Utf8Constant) Value() interface{} {
-	return u.value
+	return u.Utf8Value
 }
 
 func (u *Utf8Constant) String() string {
-	return fmt.Sprintf("<CONSTANT_Utf8_info: %s>", u.value)
+	return fmt.Sprintf("<CONSTANT_Utf8_info: %s>", u.Utf8Value)
 }
 
 func (u *Utf8Constant) GoString() string {
@@ -30,7 +30,7 @@ func _newUtf8Constant(reader *reader.ByteCodeReader) *Utf8Constant {
 	length, _ := reader.ReadU2()
 	utf8, _ := reader.ReadAny(int(length))
 	return &Utf8Constant{
-		value: _decodeMUtf8(utf8),
+		Utf8Value: _decodeMUtf8(utf8),
 	}
 }
 

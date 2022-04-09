@@ -6,7 +6,8 @@ import (
 )
 
 type InterfaceMethodRefConstant struct {
-	classInfoIndex, nameAndTypeInfoIndex uint16
+	ClassInfoIndex       uint16
+	NameAndTypeInfoIndex uint16
 }
 
 func (i *InterfaceMethodRefConstant) Tag() int {
@@ -14,11 +15,11 @@ func (i *InterfaceMethodRefConstant) Tag() int {
 }
 
 func (i *InterfaceMethodRefConstant) Value() interface{} {
-	return []uint16{i.classInfoIndex, i.nameAndTypeInfoIndex}
+	return []uint16{i.ClassInfoIndex, i.NameAndTypeInfoIndex}
 }
 
 func (i *InterfaceMethodRefConstant) String() string {
-	return fmt.Sprintf("<CONSTANT_InterfaceMethodref_info: @%d @%d>", i.classInfoIndex, i.nameAndTypeInfoIndex)
+	return fmt.Sprintf("<CONSTANT_InterfaceMethodref_info: @%d @%d>", i.ClassInfoIndex, i.NameAndTypeInfoIndex)
 }
 
 func (i *InterfaceMethodRefConstant) GoString() string {
@@ -28,14 +29,14 @@ func (i *InterfaceMethodRefConstant) GoString() string {
 func _newInterfaceMethodRefConstant(r *reader.ByteCodeReader) *InterfaceMethodRefConstant {
 	ret := new(InterfaceMethodRefConstant)
 	if classInfoIndex, ok := r.ReadU2(); ok {
-		ret.classInfoIndex = classInfoIndex
+		ret.ClassInfoIndex = classInfoIndex
 	} else {
-		panic("Read interface method ref (class info index) error")
+		panic("Read interface method ref (class info Index) error")
 	}
 	if nameAndTypeIndex, ok := r.ReadU2(); ok {
-		ret.nameAndTypeInfoIndex = nameAndTypeIndex
+		ret.NameAndTypeInfoIndex = nameAndTypeIndex
 	} else {
-		panic("Read interface method ref (name and type index) error")
+		panic("Read interface method ref (name and type Index) error")
 	}
 	return ret
 }

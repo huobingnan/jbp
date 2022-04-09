@@ -6,7 +6,7 @@ import (
 )
 
 type PackageConstant struct {
-	nameIndex uint16
+	NameIndex uint16
 }
 
 func (p *PackageConstant) Tag() int {
@@ -14,11 +14,11 @@ func (p *PackageConstant) Tag() int {
 }
 
 func (p *PackageConstant) Value() interface{} {
-	return p.nameIndex
+	return p.NameIndex
 }
 
 func (p *PackageConstant) String() string {
-	return fmt.Sprintf("<CONSTANT_Package_info: @%d>", p.nameIndex)
+	return fmt.Sprintf("<CONSTANT_Package_info: @%d>", p.NameIndex)
 }
 
 func (p *PackageConstant) GoString() string {

@@ -8,7 +8,7 @@ import (
 
 // DoubleConstant 双精度浮点数值常量池常量
 type DoubleConstant struct {
-	value float64
+	DoubleValue float64
 }
 
 func (d *DoubleConstant) Tag() int {
@@ -16,17 +16,17 @@ func (d *DoubleConstant) Tag() int {
 }
 
 func (d *DoubleConstant) Value() interface{} {
-	return d.value
+	return d.DoubleValue
 }
 
 func (d *DoubleConstant) String() string {
-	return fmt.Sprintf("<CONSTANT_Double_info: %f>", d.value)
+	return fmt.Sprintf("<CONSTANT_Double_info: %f>", d.DoubleValue)
 }
 
 func _newDoubleConstant(r *reader.ByteCodeReader) *DoubleConstant {
 	if double, ok := r.ReadU8(); ok {
 		return &DoubleConstant{
-			value: math.Float64frombits(double),
+			DoubleValue: math.Float64frombits(double),
 		}
 	} else {
 		panic("Read double constant error")

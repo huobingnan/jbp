@@ -6,8 +6,8 @@ import (
 )
 
 type MethodHandleConstant struct {
-	referenceKind  uint8
-	referenceIndex uint16
+	ReferenceKind  uint8
+	ReferenceIndex uint16
 }
 
 func (m *MethodHandleConstant) Tag() int {
@@ -15,11 +15,11 @@ func (m *MethodHandleConstant) Tag() int {
 }
 
 func (m *MethodHandleConstant) Value() interface{} {
-	return []uint16{uint16(m.referenceKind), m.referenceIndex}
+	return []uint16{uint16(m.ReferenceKind), m.ReferenceIndex}
 }
 
 func (m *MethodHandleConstant) String() string {
-	return fmt.Sprintf("<CONSTANT_MethodHandle_info: %d, @%d>", m.referenceKind, m.referenceIndex)
+	return fmt.Sprintf("<CONSTANT_MethodHandle_info: %d, @%d>", m.ReferenceKind, m.ReferenceIndex)
 }
 
 func (m *MethodHandleConstant) GoString() string {
@@ -29,14 +29,14 @@ func (m *MethodHandleConstant) GoString() string {
 func _newMethodHandleConstant(r *reader.ByteCodeReader) *MethodHandleConstant {
 	ret := new(MethodHandleConstant)
 	if kind, ok := r.ReadU1(); ok {
-		ret.referenceKind = kind
+		ret.ReferenceKind = kind
 	} else {
 		panic("Read method handle constant (reference kind) error")
 	}
 	if index, ok := r.ReadU2(); ok {
-		ret.referenceIndex = index
+		ret.ReferenceIndex = index
 	} else {
-		panic("Read method handle constant (reference index) error")
+		panic("Read method handle constant (reference Index) error")
 	}
 	return ret
 }

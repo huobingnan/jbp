@@ -23,7 +23,7 @@ func TestNewConstantPool(t *testing.T) {
 		fmt.Printf("%X\n", magic)
 		constantPool := NewConstantPool(r)
 		for idx, each := range constantPool {
-			fmt.Printf("index: %2d, %v\n", idx, each)
+			fmt.Printf("Index: %2d, %v\n", idx, each)
 		}
 	})
 
@@ -35,7 +35,7 @@ func TestNewConstantPool(t *testing.T) {
 		r.ReadU2() // 读取次版本号
 		cp := NewConstantPool(r)
 		for idx, each := range cp {
-			fmt.Printf("index: %2d, %v\n", idx, each)
+			fmt.Printf("Index: %2d, %v\n", idx, each)
 		}
 	})
 }

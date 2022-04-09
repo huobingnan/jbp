@@ -6,7 +6,7 @@ import (
 )
 
 type LongConstant struct {
-	value int64
+	LongValue int64
 }
 
 func (l *LongConstant) Tag() int {
@@ -14,17 +14,17 @@ func (l *LongConstant) Tag() int {
 }
 
 func (l *LongConstant) Value() interface{} {
-	return l.value
+	return l.LongValue
 }
 
 func (l *LongConstant) String() string {
-	return fmt.Sprintf("<CONSTANT_Long_info: %d>", l.value)
+	return fmt.Sprintf("<CONSTANT_Long_info: %d>", l.LongValue)
 }
 
 func _newLongConstant(r *reader.ByteCodeReader) *LongConstant {
 	if long, ok := r.ReadU8(); ok {
 		return &LongConstant{
-			value: int64(long),
+			LongValue: int64(long),
 		}
 	} else {
 		panic("Read long constant error")
