@@ -26,7 +26,7 @@ func (c *ClassConstant) GoString() string {
 	return c.String()
 }
 
-func NewClassConstant(r *reader.ByteCodeReader) *ClassConstant {
+func _newClassConstant(r *reader.ByteCodeReader) *ClassConstant {
 	if index, ok := r.ReadU2(); ok {
 		return &ClassConstant{
 			index: index,

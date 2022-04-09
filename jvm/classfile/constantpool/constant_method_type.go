@@ -25,7 +25,7 @@ func (m *MethodTypeConstant) GoString() string {
 	return m.String()
 }
 
-func NewMethodTypeConstant(r *reader.ByteCodeReader) *MethodTypeConstant {
+func _newMethodTypeConstant(r *reader.ByteCodeReader) *MethodTypeConstant {
 	if index, ok := r.ReadU2(); ok {
 		return &MethodTypeConstant{
 			descriptorIndex: index,

@@ -21,7 +21,7 @@ func (m *MethodRefConstant) String() string {
 	return fmt.Sprintf("<CONSTANT_Methodref_info: @%d, @%d>", m.classInfoIndex, m.nameAndTypeInfoIndex)
 }
 
-func NewMethodRefConstant(r *reader.ByteCodeReader) *MethodRefConstant {
+func _newMethodRefConstant(r *reader.ByteCodeReader) *MethodRefConstant {
 	ret := new(MethodRefConstant)
 	if classInfoIndex, ok := r.ReadU2(); ok {
 		ret.classInfoIndex = classInfoIndex

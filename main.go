@@ -13,7 +13,7 @@ func ReadConstantPool(s *reader.ByteCodeReader, size int) {
 	for i := 0; i < size-1; i++ {
 		tag, _ := s.ReadU1()
 		if tag == constantpool.ConstantUtf8Info {
-			utf8 := constantpool.NewUtf8Constant(s)
+			utf8 := constantpool._newUtf8Constant(s)
 			fmt.Printf("%#v\n", utf8)
 			continue
 		}
@@ -22,7 +22,7 @@ func ReadConstantPool(s *reader.ByteCodeReader, size int) {
 		case constantpool.ConstantUtf8Info:
 			fmt.Println("Utf8")
 		case constantpool.ConstantIntegerInfo:
-			i := constantpool.NewIntegerConstant(s)
+			i := constantpool._newIntegerConstant(s)
 			fmt.Printf("%#v\n", i)
 		case constantpool.ConstantFloatInfo:
 			fmt.Println("Float")
@@ -41,7 +41,7 @@ func ReadConstantPool(s *reader.ByteCodeReader, size int) {
 		case constantpool.ConstantInterfaceMethodRefInfo:
 			fmt.Println("Interface Method Ref")
 		case constantpool.ConstantNameAndTypeInfo:
-			nameAndType := constantpool.NewNameAndTypeConstant(s)
+			nameAndType := constantpool._newNameAndTypeConstant(s)
 			fmt.Printf("%#v\n", nameAndType)
 		case constantpool.ConstantMethodHandleInfo:
 			fmt.Println("Method Handle")

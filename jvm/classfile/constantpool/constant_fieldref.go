@@ -25,7 +25,7 @@ func (f *FieldRefConstant) GoString() string {
 	return f.String()
 }
 
-func NewFieldRefConstant(r *reader.ByteCodeReader) *FieldRefConstant {
+func _newFieldRefConstant(r *reader.ByteCodeReader) *FieldRefConstant {
 	ret := new(FieldRefConstant)
 	if classInfoIndex, ok := r.ReadU2(); ok {
 		ret.classInfoIndex = classInfoIndex

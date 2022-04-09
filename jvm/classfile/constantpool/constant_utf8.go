@@ -26,15 +26,15 @@ func (u *Utf8Constant) GoString() string {
 	return u.String()
 }
 
-func NewUtf8Constant(reader *reader.ByteCodeReader) *Utf8Constant {
+func _newUtf8Constant(reader *reader.ByteCodeReader) *Utf8Constant {
 	length, _ := reader.ReadU2()
 	utf8, _ := reader.ReadAny(int(length))
 	return &Utf8Constant{
-		value: decodeMUtf8(utf8),
+		value: _decodeMUtf8(utf8),
 	}
 }
 
-func decodeMUtf8(bytearr []byte) string {
+func _decodeMUtf8(bytearr []byte) string {
 	utflen := len(bytearr)
 	chararr := make([]uint16, utflen)
 

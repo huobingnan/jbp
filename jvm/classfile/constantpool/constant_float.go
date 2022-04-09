@@ -26,7 +26,7 @@ func (f *FloatConstant) GoString() string {
 	return f.String()
 }
 
-func NewFloatConstant(r *reader.ByteCodeReader) *FloatConstant {
+func _newFloatConstant(r *reader.ByteCodeReader) *FloatConstant {
 	if float, ok := r.ReadU4(); ok {
 		return &FloatConstant{
 			value: math.Float32frombits(float),

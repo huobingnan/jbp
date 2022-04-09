@@ -56,6 +56,51 @@ type JvmClassFileConstant interface {
 
 type ConstantPool []JvmClassFileConstant
 
+func NewConstant(r *reader.ByteCodeReader) JvmClassFileConstant {
+	tag, ok := r.ReadU1()
+	if !ok {
+		panic("Read constant pool tag error")
+	}
+	switch tag {
+	case ConstantUtf8Info:
+		return _newUtf8Constant(r)
+	case ConstantIntegerInfo:
+		return _newIntegerConstant(r)
+	case ConstantFloatInfo:
+		return _newFloatConstant(r)
+	case ConstantLongInfo:
+		return _newLongConstant(r)
+	case ConstantDoubleInfo:
+		return _newDoubleConstant(r)
+	case ConstantClassInfo:
+		return _newClassConstant(r)
+	case ConstantStringInfo:
+		return _newStringConstant(r)
+	case ConstantFieldRefInfo:
+		return _newFieldRefConstant(r)
+	case ConstantMethodRefInfo:
+		return _newMethodRefConstant(r)
+	case ConstantInterfaceMethodRefInfo:
+		return _newInterfaceMethodRefConstant(r)
+	case ConstantNameAndTypeInfo:
+		return _newNameAndTypeConstant(r)
+	case ConstantMethodHandleInfo:
+		return _newMethodHandleConstant(r)
+	case ConstantMethodTypeInfo:
+		return _newMethodTypeConstant(r)
+	case ConstantDynamicInfo:
+		return _newDynamicConstant(r)
+	case ConstantInvokeDynamicInfo:
+		return _newInvokeDynamicConstant(r)
+	case ConstantModuleInfo:
+		return _newModuleConstant(r)
+	case ConstantPackageInfo:
+		return _newPackageConstant(r)
+	default:
+		panic(fmt.Sprintf("Error tag : %d", tag))
+	}
+}
+
 // NewConstantPool 从字节码读取器中读取常量池的信息
 // Notice: 当前字节码读取器的游标必须指向常量池开始的位置
 func NewConstantPool(r *reader.ByteCodeReader) ConstantPool {
@@ -66,48 +111,7 @@ func NewConstantPool(r *reader.ByteCodeReader) ConstantPool {
 	constantPool := make([]JvmClassFileConstant, size)
 	index := 1
 	for i := 0; i < int(size-1); i++ {
-		tag, ok := r.ReadU1()
-		if !ok {
-			panic("Read constant pool tag error")
-		}
-		switch tag {
-		case ConstantUtf8Info:
-			constantPool[index] = NewUtf8Constant(r)
-		case ConstantIntegerInfo:
-			constantPool[index] = NewIntegerConstant(r)
-		case ConstantFloatInfo:
-			constantPool[index] = NewFloatConstant(r)
-		case ConstantLongInfo:
-			constantPool[index] = NewLongConstant(r)
-		case ConstantDoubleInfo:
-			constantPool[index] = NewDoubleConstant(r)
-		case ConstantClassInfo:
-			constantPool[index] = NewClassConstant(r)
-		case ConstantStringInfo:
-			constantPool[index] = NewStringConstant(r)
-		case ConstantFieldRefInfo:
-			constantPool[index] = NewFieldRefConstant(r)
-		case ConstantMethodRefInfo:
-			constantPool[index] = NewMethodRefConstant(r)
-		case ConstantInterfaceMethodRefInfo:
-			constantPool[index] = NewInterfaceMethodRefConstant(r)
-		case ConstantNameAndTypeInfo:
-			constantPool[index] = NewNameAndTypeConstant(r)
-		case ConstantMethodHandleInfo:
-			constantPool[index] = NewMethodHandleConstant(r)
-		case ConstantMethodTypeInfo:
-			constantPool[index] = NewMethodTypeConstant(r)
-		case ConstantDynamicInfo:
-			constantPool[index] = NewDynamicConstant(r)
-		case ConstantInvokeDynamicInfo:
-			constantPool[index] = NewInvokeDynamicConstant(r)
-		case ConstantModuleInfo:
-			constantPool[index] = NewModuleConstant(r)
-		case ConstantPackageInfo:
-			constantPool[index] = NewPackageConstant(r)
-		default:
-			panic(fmt.Sprintf("Error tag : %d", tag))
-		}
+		constantPool[index] = NewConstant(r)
 		index += 1
 	}
 	return constantPool

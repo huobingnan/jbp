@@ -21,7 +21,7 @@ func (l *LongConstant) String() string {
 	return fmt.Sprintf("<CONSTANT_Long_info: %d>", l.value)
 }
 
-func NewLongConstant(r *reader.ByteCodeReader) *LongConstant {
+func _newLongConstant(r *reader.ByteCodeReader) *LongConstant {
 	if long, ok := r.ReadU8(); ok {
 		return &LongConstant{
 			value: int64(long),

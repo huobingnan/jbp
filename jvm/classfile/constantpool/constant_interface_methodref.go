@@ -25,7 +25,7 @@ func (i *InterfaceMethodRefConstant) GoString() string {
 	return i.String()
 }
 
-func NewInterfaceMethodRefConstant(r *reader.ByteCodeReader) *InterfaceMethodRefConstant {
+func _newInterfaceMethodRefConstant(r *reader.ByteCodeReader) *InterfaceMethodRefConstant {
 	ret := new(InterfaceMethodRefConstant)
 	if classInfoIndex, ok := r.ReadU2(); ok {
 		ret.classInfoIndex = classInfoIndex

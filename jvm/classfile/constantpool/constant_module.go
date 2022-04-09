@@ -25,7 +25,7 @@ func (m *ModuleConstant) GoString() string {
 	return m.String()
 }
 
-func NewModuleConstant(r *reader.ByteCodeReader) *ModuleConstant {
+func _newModuleConstant(r *reader.ByteCodeReader) *ModuleConstant {
 	if index, ok := r.ReadU2(); ok {
 		return &ModuleConstant{index}
 	}

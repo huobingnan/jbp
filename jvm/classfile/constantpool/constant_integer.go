@@ -26,7 +26,7 @@ func (i *IntegerConstant) GoString() string {
 	return i.String()
 }
 
-func NewIntegerConstant(r *reader.ByteCodeReader) *IntegerConstant {
+func _newIntegerConstant(r *reader.ByteCodeReader) *IntegerConstant {
 	if i, ok := r.ReadU4(); ok {
 		return &IntegerConstant{int(i)}
 	} else {

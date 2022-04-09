@@ -26,7 +26,7 @@ func (m *MethodHandleConstant) GoString() string {
 	return m.String()
 }
 
-func NewMethodHandleConstant(r *reader.ByteCodeReader) *MethodHandleConstant {
+func _newMethodHandleConstant(r *reader.ByteCodeReader) *MethodHandleConstant {
 	ret := new(MethodHandleConstant)
 	if kind, ok := r.ReadU1(); ok {
 		ret.referenceKind = kind

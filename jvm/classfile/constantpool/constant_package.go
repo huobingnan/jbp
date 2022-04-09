@@ -25,7 +25,7 @@ func (p *PackageConstant) GoString() string {
 	return p.String()
 }
 
-func NewPackageConstant(r *reader.ByteCodeReader) *PackageConstant {
+func _newPackageConstant(r *reader.ByteCodeReader) *PackageConstant {
 	if index, ok := r.ReadU2(); ok {
 		return &PackageConstant{index}
 	}

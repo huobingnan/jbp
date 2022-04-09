@@ -25,7 +25,7 @@ func (s *StringConstant) GoString() string {
 	return s.String()
 }
 
-func NewStringConstant(r *reader.ByteCodeReader) *StringConstant {
+func _newStringConstant(r *reader.ByteCodeReader) *StringConstant {
 	if index, ok := r.ReadU2(); ok {
 		return &StringConstant{
 			index: index,

@@ -25,7 +25,7 @@ func (n *NameAndTypeConstant) GoString() string {
 	return n.String()
 }
 
-func NewNameAndTypeConstant(r *reader.ByteCodeReader) *NameAndTypeConstant {
+func _newNameAndTypeConstant(r *reader.ByteCodeReader) *NameAndTypeConstant {
 	ret := new(NameAndTypeConstant)
 	if classInfoIndex, ok := r.ReadU2(); ok {
 		ret.nameIndex = classInfoIndex

@@ -25,7 +25,7 @@ func (i *InvokeDynamicConstant) GoString() string {
 	return i.String()
 }
 
-func NewInvokeDynamicConstant(r *reader.ByteCodeReader) *InvokeDynamicConstant {
+func _newInvokeDynamicConstant(r *reader.ByteCodeReader) *InvokeDynamicConstant {
 	ret := new(InvokeDynamicConstant)
 	if bootstrapIndex, ok := r.ReadU2(); ok {
 		ret.bootstrapMethodAttrIndex = bootstrapIndex

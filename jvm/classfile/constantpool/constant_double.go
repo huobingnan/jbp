@@ -23,7 +23,7 @@ func (d *DoubleConstant) String() string {
 	return fmt.Sprintf("<CONSTANT_Double_info: %f>", d.value)
 }
 
-func NewDoubleConstant(r *reader.ByteCodeReader) *DoubleConstant {
+func _newDoubleConstant(r *reader.ByteCodeReader) *DoubleConstant {
 	if double, ok := r.ReadU8(); ok {
 		return &DoubleConstant{
 			value: math.Float64frombits(double),
