@@ -19,7 +19,6 @@ func (s *SimpleConsolePrinter) _parseClassName(cidx uint16) string {
 func (s *SimpleConsolePrinter) _printConstantPool() {
 	cp := s.classFile.ConstantPool()
 	fmt.Printf("Constant Pool:\n")
-	fmt.Printf("\tLength = %d\n", len(cp))
 	for idx, constant := range cp {
 		if constant == nil {
 			continue
