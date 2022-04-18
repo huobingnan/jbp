@@ -1,7 +1,7 @@
 package classfile
 
 import (
-	"bytecodeparser/jvm/reader"
+	"github.com/huobingnan/jbp/jvm/reader"
 )
 
 // LineNumberInfo 包含了start_pc和Java源程序line_number的对应

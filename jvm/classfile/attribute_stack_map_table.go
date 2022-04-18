@@ -1,8 +1,8 @@
 package classfile
 
 import (
-	"bytecodeparser/jvm/reader"
 	"encoding/binary"
+	"github.com/huobingnan/jbp/jvm/reader"
 	"strconv"
 )
 

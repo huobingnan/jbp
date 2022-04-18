@@ -1,7 +1,7 @@
 package classfile
 
 import (
-	"bytecodeparser/jvm/reader"
+	"github.com/huobingnan/jbp/jvm/reader"
 )
 
 type NestMembersAttribute struct {

@@ -1,8 +1,8 @@
 package classfile
 
 import (
-	"bytecodeparser/jvm/reader"
 	"fmt"
+	"github.com/huobingnan/jbp/jvm/reader"
 )
 
 // IntegerConstant 整型常量池常量

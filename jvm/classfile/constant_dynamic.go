@@ -1,8 +1,8 @@
 package classfile
 
 import (
-	"bytecodeparser/jvm/reader"
 	"fmt"
+	"github.com/huobingnan/jbp/jvm/reader"
 )
 
 // DynamicConstant 一个动态计算的常量

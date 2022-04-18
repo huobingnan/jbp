@@ -1,5 +1,3 @@
-module bytecodeparser
+module github.com/huobingnan/jbp
 
-go 1.18
-
-
+go 1.17
