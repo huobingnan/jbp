@@ -1,7 +1,6 @@
 package classfile
 
 import (
-	"bytecodeparser/jvm/classfile/constantpool"
 	"bytecodeparser/jvm/classfile/reader"
 )
 
@@ -17,7 +16,7 @@ func (self *ExceptionsAttribute) Length() uint32 { return self.length }
 
 // _newExceptionsAttribute 从Class File中读取一个Exception
 // NOTICE：读取时忽略属性的名称，直接从长度属性开始
-func _newExceptionsAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *ExceptionsAttribute {
+func _newExceptionsAttribute(r *reader.ByteCodeReader, cp ConstantPool) *ExceptionsAttribute {
 	length, ok := r.ReadU4()
 	if !ok {
 		panic(ErrorMsgFmt("Read exceptions attribute error", "can't read Length info", r.Offset()))

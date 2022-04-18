@@ -1,7 +1,6 @@
 package classfile
 
 import (
-	"bytecodeparser/jvm/classfile/constantpool"
 	"bytecodeparser/jvm/classfile/reader"
 )
 
@@ -59,7 +58,7 @@ func readAnnotation(r *reader.ByteCodeReader) Annotation {
 }
 
 func _newRuntimeVisibleAnnotationsAttribute(r *reader.ByteCodeReader,
-	cp constantpool.ConstantPool) *RuntimeVisibleAnnotationsAttribute {
+	cp ConstantPool) *RuntimeVisibleAnnotationsAttribute {
 	var ok bool
 	ret := new(RuntimeVisibleAnnotationsAttribute)
 	ret.length, ok = r.ReadU4()

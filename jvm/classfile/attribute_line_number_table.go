@@ -1,7 +1,6 @@
 package classfile
 
 import (
-	"bytecodeparser/jvm/classfile/constantpool"
 	"bytecodeparser/jvm/classfile/reader"
 )
 
@@ -24,7 +23,7 @@ func (l *LineNumberTableAttribute) Name() string { return LineNumberTable }
 func (l *LineNumberTableAttribute) Length() uint32 { return l.length }
 
 // _newLineNumberTableAttribute 从Class File中读取LineNumberTable的属性
-func _newLineNumberTableAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *LineNumberTableAttribute {
+func _newLineNumberTableAttribute(r *reader.ByteCodeReader, cp ConstantPool) *LineNumberTableAttribute {
 	var ok bool
 	ret := new(LineNumberTableAttribute)
 	ret.length, ok = r.ReadU4()

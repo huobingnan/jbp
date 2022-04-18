@@ -1,7 +1,6 @@
 package classfile
 
 import (
-	"bytecodeparser/jvm/classfile/constantpool"
 	"bytecodeparser/jvm/classfile/field"
 	"bytecodeparser/jvm/classfile/method"
 	"bytecodeparser/jvm/classfile/reader"
@@ -33,7 +32,7 @@ type JvmClassFile struct {
 	magicNumber       uint32                      // 魔数
 	majorVersion      uint16                      // 主版本号
 	minorVersion      uint16                      // 次版本号
-	cp                constantpool.ConstantPool   // 常量池
+	cp                ConstantPool                // 常量池
 	accessFlags       uint16                      // 访问标志
 	thisClass         uint16                      // 此类全限定名的常量池索引
 	superClass        uint16                      // 此类父类的全限定名的常量池索引
@@ -121,7 +120,7 @@ func _readAttributeTable(r *reader.ByteCodeReader, cfile *JvmClassFile) {
 func NewJvmClassFile(r *reader.ByteCodeReader) *JvmClassFile {
 	ret := new(JvmClassFile)
 	readMagicNumberAndVersion(r, ret)
-	ret.cp = constantpool.NewConstantPool(r)
+	ret.cp = NewConstantPool(r)
 	// 读取访问标志
 	if flags, ok := r.ReadU2(); ok {
 		ret.accessFlags = flags
@@ -153,7 +152,7 @@ func (j *JvmClassFile) MajorVersion() uint16 { return j.majorVersion }
 
 func (j *JvmClassFile) MinorVersion() uint16 { return j.minorVersion }
 
-func (j *JvmClassFile) ConstantPool() constantpool.ConstantPool { return j.cp }
+func (j *JvmClassFile) ConstantPool() ConstantPool { return j.cp }
 
 func (j *JvmClassFile) AccessFlags() uint16 { return j.accessFlags }
 

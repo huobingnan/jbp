@@ -1,7 +1,6 @@
 package classfile
 
 import (
-	"bytecodeparser/jvm/classfile/constantpool"
 	"bytecodeparser/jvm/classfile/reader"
 	"encoding/binary"
 	"strconv"
@@ -196,7 +195,7 @@ func _readFullFrame(r *reader.ByteCodeReader, s *StackMapTableAttribute, value b
 	s.Entries = append(s.Entries, StackMapFrame{source, FullFrame, value})
 }
 
-func _newStackMapTableAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *StackMapTableAttribute {
+func _newStackMapTableAttribute(r *reader.ByteCodeReader, cp ConstantPool) *StackMapTableAttribute {
 	var ok bool
 	ret := new(StackMapTableAttribute)
 	ret.length, ok = r.ReadU4()

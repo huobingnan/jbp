@@ -1,7 +1,6 @@
 package classfile
 
 import (
-	"bytecodeparser/jvm/classfile/constantpool"
 	"bytecodeparser/jvm/classfile/reader"
 )
 
@@ -56,7 +55,7 @@ func readLocalVariableInfo(r *reader.ByteCodeReader) LocalVariableInfo {
 	return info
 }
 
-func _newLocalVariableTableAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *LocalVariableTableAttribute {
+func _newLocalVariableTableAttribute(r *reader.ByteCodeReader, cp ConstantPool) *LocalVariableTableAttribute {
 	var ok bool
 	ret := new(LocalVariableTableAttribute)
 	ret.length, ok = r.ReadU4()

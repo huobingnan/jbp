@@ -1,7 +1,6 @@
 package classfile
 
 import (
-	"bytecodeparser/jvm/classfile/constantpool"
 	"bytecodeparser/jvm/classfile/reader"
 )
 
@@ -15,7 +14,7 @@ func (s *SourceFileAttribute) Name() string { return SourceFile }
 
 func (s *SourceFileAttribute) Length() uint32 { return s.length }
 
-func _newSourceFileAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *SourceFileAttribute {
+func _newSourceFileAttribute(r *reader.ByteCodeReader, cp ConstantPool) *SourceFileAttribute {
 	var ok bool
 	ret := new(SourceFileAttribute)
 	ret.length, ok = r.ReadU4()

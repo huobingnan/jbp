@@ -2,7 +2,6 @@ package method
 
 import (
 	"bytecodeparser/jvm/classfile"
-	"bytecodeparser/jvm/classfile/constantpool"
 	"bytecodeparser/jvm/classfile/reader"
 	"fmt"
 )
@@ -26,7 +25,7 @@ func (m *JvmClassFileMethod) GoString() string {
 	return m.String()
 }
 
-func New(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *JvmClassFileMethod {
+func New(r *reader.ByteCodeReader, cp classfile.ConstantPool) *JvmClassFileMethod {
 	var ok bool
 	ret := new(JvmClassFileMethod)
 	ret.accessFlags, ok = r.ReadU2()

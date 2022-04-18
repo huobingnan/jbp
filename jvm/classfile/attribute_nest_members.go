@@ -1,7 +1,6 @@
 package classfile
 
 import (
-	"bytecodeparser/jvm/classfile/constantpool"
 	"bytecodeparser/jvm/classfile/reader"
 )
 
@@ -14,7 +13,7 @@ func (n *NestMembersAttribute) Name() string { return NestMembers }
 
 func (n *NestMembersAttribute) Length() uint32 { return n.length }
 
-func _newNestMembersAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *NestMembersAttribute {
+func _newNestMembersAttribute(r *reader.ByteCodeReader, cp ConstantPool) *NestMembersAttribute {
 	var ok bool
 	ret := new(NestMembersAttribute)
 	ret.length, ok = r.ReadU4()

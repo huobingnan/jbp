@@ -1,7 +1,6 @@
 package classfile
 
 import (
-	"bytecodeparser/jvm/classfile/constantpool"
 	"bytecodeparser/jvm/classfile/reader"
 )
 
@@ -18,7 +17,7 @@ func (e *ExceptionTableAttribute) Name() string { return ExceptionTable }
 
 func (e *ExceptionTableAttribute) Length() uint32 { return uint32(4) }
 
-func _newExceptionTableAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *ExceptionTableAttribute {
+func _newExceptionTableAttribute(r *reader.ByteCodeReader, cp ConstantPool) *ExceptionTableAttribute {
 	var ok bool
 	ret := new(ExceptionTableAttribute)
 	ret.StartPc, ok = r.ReadU2()

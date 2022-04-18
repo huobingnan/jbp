@@ -2,7 +2,6 @@ package field
 
 import (
 	"bytecodeparser/jvm/classfile"
-	"bytecodeparser/jvm/classfile/constantpool"
 	"bytecodeparser/jvm/classfile/reader"
 	"fmt"
 )
@@ -28,7 +27,7 @@ func (self *JvmClassFileField) GoString() string {
 }
 
 // New 新建一个属性
-func New(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *JvmClassFileField {
+func New(r *reader.ByteCodeReader, cp classfile.ConstantPool) *JvmClassFileField {
 	ret := new(JvmClassFileField)
 	if flags, ok := r.ReadU2(); ok {
 		ret.accessFlags = flags

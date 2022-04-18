@@ -1,4 +1,4 @@
-package constantpool
+package classfile
 
 import (
 	"bytecodeparser/jvm/classfile/reader"

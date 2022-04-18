@@ -1,7 +1,6 @@
 package classfile
 
 import (
-	"bytecodeparser/jvm/classfile/constantpool"
 	"bytecodeparser/jvm/classfile/reader"
 )
 
@@ -19,7 +18,7 @@ func (c *CodeAttribute) Name() string { return Code }
 
 func (c *CodeAttribute) Length() uint32 { return c.length }
 
-func _newCodeAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *CodeAttribute {
+func _newCodeAttribute(r *reader.ByteCodeReader, cp ConstantPool) *CodeAttribute {
 	ret := new(CodeAttribute)
 	if l, ok := r.ReadU4(); ok {
 		ret.length = l

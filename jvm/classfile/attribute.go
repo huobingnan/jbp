@@ -1,7 +1,6 @@
 package classfile
 
 import (
-	"bytecodeparser/jvm/classfile/constantpool"
 	"bytecodeparser/jvm/classfile/reader"
 )
 
@@ -28,7 +27,7 @@ type JvmClassFileAttribute interface {
 	Length() uint32 // 获取属性的长度
 }
 
-func NewAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) JvmClassFileAttribute {
+func NewAttribute(r *reader.ByteCodeReader, cp ConstantPool) JvmClassFileAttribute {
 	var name string
 	if idx, ok := r.ReadU2(); ok {
 		name = cp[idx].Value().(string)
