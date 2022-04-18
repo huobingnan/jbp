@@ -1,7 +1,7 @@
 package method
 
 import (
-	"bytecodeparser/jvm/classfile/attribute"
+	"bytecodeparser/jvm/classfile"
 	"bytecodeparser/jvm/classfile/constantpool"
 	"bytecodeparser/jvm/classfile/reader"
 	"fmt"
@@ -15,7 +15,7 @@ type JvmClassFileMethod struct {
 	accessFlags     uint16
 	nameIndex       uint16
 	descriptorIndex uint16
-	attributes      []attribute.JvmClassFileAttribute
+	attributes      []classfile.JvmClassFileAttribute
 }
 
 func (m *JvmClassFileMethod) String() string {
@@ -45,9 +45,9 @@ func New(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *JvmClassFileMe
 	if !ok {
 		panic(ErrorMsgFmt("Read method error", "can't read attribute_count info", r.Offset()))
 	}
-	ret.attributes = make([]attribute.JvmClassFileAttribute, 0, attributeCount)
+	ret.attributes = make([]classfile.JvmClassFileAttribute, 0, attributeCount)
 	for i := uint16(0); i < attributeCount; i++ {
-		ret.attributes = append(ret.attributes, attribute.New(r, cp))
+		ret.attributes = append(ret.attributes, classfile.NewAttribute(r, cp))
 	}
 	return ret
 }

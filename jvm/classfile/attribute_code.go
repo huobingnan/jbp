@@ -1,4 +1,4 @@
-package attribute
+package classfile
 
 import (
 	"bytecodeparser/jvm/classfile/constantpool"
@@ -59,7 +59,7 @@ func _newCodeAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *
 	if ac, ok := r.ReadU2(); ok {
 		ret.Attributes = make([]JvmClassFileAttribute, ac)
 		for i := 0; i < int(ac); i++ {
-			ret.Attributes[i] = New(r, cp)
+			ret.Attributes[i] = NewAttribute(r, cp)
 		}
 	}
 	return ret

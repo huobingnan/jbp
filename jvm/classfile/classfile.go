@@ -1,7 +1,6 @@
 package classfile
 
 import (
-	"bytecodeparser/jvm/classfile/attribute"
 	"bytecodeparser/jvm/classfile/constantpool"
 	"bytecodeparser/jvm/classfile/field"
 	"bytecodeparser/jvm/classfile/method"
@@ -27,21 +26,21 @@ const (
 )
 
 func ErrorMsgFmt(body, detail string, offset uint32) string {
-	return fmt.Sprintf("[ERROR]:  %s (%s) @%d", body, detail, offset)
+	return fmt.Sprintf("%s (%s) @%d", body, detail, offset)
 }
 
 type JvmClassFile struct {
-	magicNumber       uint32                            // 魔数
-	majorVersion      uint16                            // 主版本号
-	minorVersion      uint16                            // 次版本号
-	cp                constantpool.ConstantPool         // 常量池
-	accessFlags       uint16                            // 访问标志
-	thisClass         uint16                            // 此类全限定名的常量池索引
-	superClass        uint16                            // 此类父类的全限定名的常量池索引
-	interfaceIndexSet []uint16                          // 此类实现的接口索引集合
-	fields            []field.JvmClassFileField         // 字段表
-	methods           []method.JvmClassFileMethod       // 方法表
-	attributes        []attribute.JvmClassFileAttribute // 属性表
+	magicNumber       uint32                      // 魔数
+	majorVersion      uint16                      // 主版本号
+	minorVersion      uint16                      // 次版本号
+	cp                constantpool.ConstantPool   // 常量池
+	accessFlags       uint16                      // 访问标志
+	thisClass         uint16                      // 此类全限定名的常量池索引
+	superClass        uint16                      // 此类父类的全限定名的常量池索引
+	interfaceIndexSet []uint16                    // 此类实现的接口索引集合
+	fields            []field.JvmClassFileField   // 字段表
+	methods           []method.JvmClassFileMethod // 方法表
+	attributes        []JvmClassFileAttribute     // 属性表
 }
 
 // 读取接口索引集合
@@ -113,9 +112,9 @@ func _readAttributeTable(r *reader.ByteCodeReader, cfile *JvmClassFile) {
 	if !ok {
 		panic(ErrorMsgFmt("Read attribute table error", "fatal", r.Offset()))
 	}
-	cfile.attributes = make([]attribute.JvmClassFileAttribute, 0, attrLen)
+	cfile.attributes = make([]JvmClassFileAttribute, 0, attrLen)
 	for i := uint16(0); i < attrLen; i++ {
-		cfile.attributes = append(cfile.attributes, attribute.New(r, cfile.cp))
+		cfile.attributes = append(cfile.attributes, NewAttribute(r, cfile.cp))
 	}
 }
 
@@ -164,7 +163,7 @@ func (j *JvmClassFile) Fields() []field.JvmClassFileField { return j.fields }
 
 func (j *JvmClassFile) Methods() []method.JvmClassFileMethod { return j.methods }
 
-func (j *JvmClassFile) Attributes() []attribute.JvmClassFileAttribute { return j.attributes }
+func (j *JvmClassFile) Attributes() []JvmClassFileAttribute { return j.attributes }
 
 func (j *JvmClassFile) ThisClass() uint16 { return j.thisClass }
 

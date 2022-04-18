@@ -1,4 +1,4 @@
-package attribute
+package classfile
 
 import (
 	"bytecodeparser/jvm/classfile/constantpool"

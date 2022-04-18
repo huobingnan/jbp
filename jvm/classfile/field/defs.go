@@ -1,7 +1,7 @@
 package field
 
 import (
-	"bytecodeparser/jvm/classfile/attribute"
+	"bytecodeparser/jvm/classfile"
 	"bytecodeparser/jvm/classfile/constantpool"
 	"bytecodeparser/jvm/classfile/reader"
 	"fmt"
@@ -15,7 +15,7 @@ type JvmClassFileField struct {
 	accessFlags     uint16                            // 访问标志符
 	nameIndex       uint16                            // 名称在常量池中索引
 	descriptorIndex uint16                            // 描述符在常量池中索引
-	attributes      []attribute.JvmClassFileAttribute // 属性表
+	attributes      []classfile.JvmClassFileAttribute // 属性表
 }
 
 func (self *JvmClassFileField) String() string {
@@ -48,9 +48,9 @@ func New(r *reader.ByteCodeReader, cp constantpool.ConstantPool) *JvmClassFileFi
 	// 读取字段的属性
 	if count, ok := r.ReadU2(); ok {
 		if count > 0 {
-			ret.attributes = make([]attribute.JvmClassFileAttribute, 0, count)
+			ret.attributes = make([]classfile.JvmClassFileAttribute, 0, count)
 			for i := uint16(0); i < count; i++ {
-				ret.attributes = append(ret.attributes, attribute.New(r, cp))
+				ret.attributes = append(ret.attributes, classfile.NewAttribute(r, cp))
 			}
 		}
 	} else {

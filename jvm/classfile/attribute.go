@@ -1,9 +1,8 @@
-package attribute
+package classfile
 
 import (
 	"bytecodeparser/jvm/classfile/constantpool"
 	"bytecodeparser/jvm/classfile/reader"
-	"fmt"
 )
 
 const (
@@ -23,17 +22,13 @@ const (
 	NestMembers               = "NestMembers"               // 内部成员
 )
 
-func ErrorMsgFmt(body, detail string, offset uint32) string {
-	return fmt.Sprintf("[ERROR]:   %s (%s) @%d", body, detail, offset)
-}
-
 // JvmClassFileAttribute 属性接口定义
 type JvmClassFileAttribute interface {
 	Name() string   // 获取属性名
 	Length() uint32 // 获取属性的长度
 }
 
-func New(r *reader.ByteCodeReader, cp constantpool.ConstantPool) JvmClassFileAttribute {
+func NewAttribute(r *reader.ByteCodeReader, cp constantpool.ConstantPool) JvmClassFileAttribute {
 	var name string
 	if idx, ok := r.ReadU2(); ok {
 		name = cp[idx].Value().(string)
