@@ -1,20 +1,15 @@
-package method
+package classfile
 
 import (
-	"bytecodeparser/jvm/classfile"
 	"bytecodeparser/jvm/classfile/reader"
 	"fmt"
 )
-
-func ErrorMsgFmt(body, detail string, offset uint32) string {
-	return fmt.Sprintf("[ERROR]:  %s (%s) @%d", body, detail, offset)
-}
 
 type JvmClassFileMethod struct {
 	accessFlags     uint16
 	nameIndex       uint16
 	descriptorIndex uint16
-	attributes      []classfile.JvmClassFileAttribute
+	attributes      []JvmClassFileAttribute
 }
 
 func (m *JvmClassFileMethod) String() string {
@@ -25,7 +20,7 @@ func (m *JvmClassFileMethod) GoString() string {
 	return m.String()
 }
 
-func New(r *reader.ByteCodeReader, cp classfile.ConstantPool) *JvmClassFileMethod {
+func NewMethod(r *reader.ByteCodeReader, cp ConstantPool) *JvmClassFileMethod {
 	var ok bool
 	ret := new(JvmClassFileMethod)
 	ret.accessFlags, ok = r.ReadU2()
@@ -44,9 +39,9 @@ func New(r *reader.ByteCodeReader, cp classfile.ConstantPool) *JvmClassFileMetho
 	if !ok {
 		panic(ErrorMsgFmt("Read method error", "can't read attribute_count info", r.Offset()))
 	}
-	ret.attributes = make([]classfile.JvmClassFileAttribute, 0, attributeCount)
+	ret.attributes = make([]JvmClassFileAttribute, 0, attributeCount)
 	for i := uint16(0); i < attributeCount; i++ {
-		ret.attributes = append(ret.attributes, classfile.NewAttribute(r, cp))
+		ret.attributes = append(ret.attributes, NewAttribute(r, cp))
 	}
 	return ret
 }

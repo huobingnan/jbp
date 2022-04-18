@@ -2,7 +2,6 @@ package classfile
 
 import (
 	"bytecodeparser/jvm/classfile/field"
-	"bytecodeparser/jvm/classfile/method"
 	"bytecodeparser/jvm/classfile/reader"
 	"fmt"
 )
@@ -29,17 +28,17 @@ func ErrorMsgFmt(body, detail string, offset uint32) string {
 }
 
 type JvmClassFile struct {
-	magicNumber       uint32                      // 魔数
-	majorVersion      uint16                      // 主版本号
-	minorVersion      uint16                      // 次版本号
-	cp                ConstantPool                // 常量池
-	accessFlags       uint16                      // 访问标志
-	thisClass         uint16                      // 此类全限定名的常量池索引
-	superClass        uint16                      // 此类父类的全限定名的常量池索引
-	interfaceIndexSet []uint16                    // 此类实现的接口索引集合
-	fields            []field.JvmClassFileField   // 字段表
-	methods           []method.JvmClassFileMethod // 方法表
-	attributes        []JvmClassFileAttribute     // 属性表
+	magicNumber       uint32                    // 魔数
+	majorVersion      uint16                    // 主版本号
+	minorVersion      uint16                    // 次版本号
+	cp                ConstantPool              // 常量池
+	accessFlags       uint16                    // 访问标志
+	thisClass         uint16                    // 此类全限定名的常量池索引
+	superClass        uint16                    // 此类父类的全限定名的常量池索引
+	interfaceIndexSet []uint16                  // 此类实现的接口索引集合
+	fields            []field.JvmClassFileField // 字段表
+	methods           []JvmClassFileMethod      // 方法表
+	attributes        []JvmClassFileAttribute   // 属性表
 }
 
 // 读取接口索引集合
@@ -99,9 +98,9 @@ func readMethodTable(r *reader.ByteCodeReader, cfile *JvmClassFile) {
 	if !ok {
 		panic(ErrorMsgFmt("Read method error", "fatal", r.Offset()))
 	}
-	cfile.methods = make([]method.JvmClassFileMethod, 0, length)
+	cfile.methods = make([]JvmClassFileMethod, 0, length)
 	for i := uint16(0); i < length; i++ {
-		cfile.methods = append(cfile.methods, *method.New(r, cfile.cp))
+		cfile.methods = append(cfile.methods, *NewMethod(r, cfile.cp))
 	}
 }
 
@@ -160,7 +159,7 @@ func (j *JvmClassFile) InterfaceIndexSet() []uint16 { return j.interfaceIndexSet
 
 func (j *JvmClassFile) Fields() []field.JvmClassFileField { return j.fields }
 
-func (j *JvmClassFile) Methods() []method.JvmClassFileMethod { return j.methods }
+func (j *JvmClassFile) Methods() []JvmClassFileMethod { return j.methods }
 
 func (j *JvmClassFile) Attributes() []JvmClassFileAttribute { return j.attributes }
 
