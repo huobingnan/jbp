@@ -1,7 +1,7 @@
 package classfile
 
 import (
-	"bytecodeparser/jvm/classfile/reader"
+	"bytecodeparser/jvm/reader"
 	"io/ioutil"
 	"path/filepath"
 	"testing"

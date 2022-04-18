@@ -1,7 +1,7 @@
 package classfile
 
 import (
-	"bytecodeparser/jvm/classfile/reader"
+	"bytecodeparser/jvm/reader"
 )
 
 // ExceptionsAttribute 标注在方法签名后的，该方法可能会抛出的异常

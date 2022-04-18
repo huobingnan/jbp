@@ -1,7 +1,7 @@
 package classfile
 
 import (
-	"bytecodeparser/jvm/classfile/reader"
+	"bytecodeparser/jvm/reader"
 )
 
 // DeprecatedAttribute 这是一个bool属性，只有存在于不存在，没有属性值
